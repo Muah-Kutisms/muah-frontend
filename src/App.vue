@@ -4,20 +4,23 @@
     <div class="app-contents">
       <router-view></router-view>
     </div>
+    <AppFooter></AppFooter>
+    <ToastPopup></ToastPopup>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/common/AppHeader.vue';
+import AppHeader from './components/common/AppHeader.vue';
 
 export default {
+  name: 'App',
+
   components: {
     AppHeader,
   },
+
+  data: () => ({
+    //
+  }),
 };
 </script>
-
-<style>
-@import './css/reset.css';
-@import './css/common.css';
-</style>

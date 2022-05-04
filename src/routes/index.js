@@ -11,34 +11,15 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login',
+      redirect: '/a',
+    },
+    {
+      path: '/a',
+      component: () => import('@/views/VuetifyMainTest.vue'),
     },
     {
       path: '/login',
-      component: () => import('@/views/LoginPage.vue'),
-    },
-    {
-      path: '/signup',
-      component: () => import('@/views/SignupPage.vue'),
-    },
-    {
-      path: '/main',
       component: () => import('@/views/MainPage.vue'),
-      meta: { auth: true },
-    },
-    {
-      path: '/add',
-      component: () => import('@/views/PostAddPage.vue'),
-      meta: { auth: true },
-    },
-    {
-      path: '/post/:id',
-      component: () => import('@/views/PostEditPage.vue'),
-      meta: { auth: true },
-    },
-    {
-      path: '*',
-      component: () => import('@/views/NotFoundPage.vue'),
     },
   ],
 });

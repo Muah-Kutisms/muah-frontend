@@ -1,3 +1,5 @@
+//기능 테스트를 위한 파일
+
 import { shallowMount } from '@vue/test-utils'; //특정 컴포넌트를 마운트 할 수 있음.
 
 import LoginForm from './LoginForm';

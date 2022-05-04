@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="main list-container contents">
-      <h1 class="page-header">Today I Learned</h1>
+      <h1 class="page-header">안녕하세요</h1>
       <LoadingSpinner v-if="isLoading"></LoadingSpinner>
       <ul v-else>
-        <PostListItem
+        <SempleVue
           v-for="postItem in postItems"
           :key="postItem._id"
           :postItem="postItem"
           @refresh="fetchData"
-        ></PostListItem>
+        ></SempleVue>
       </ul>
     </div>
     <router-link to="/add" class="create-button">
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import PostListItem from '@/components/posts/PostListItem.vue';
+import SempleVue from '@/components/posts/SempleVue.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import { fetchPosts } from '@/api/posts';
 
 export default {
   components: {
-    PostListItem,
+    SempleVue,
     LoadingSpinner,
   },
   data() {
