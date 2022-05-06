@@ -11,12 +11,16 @@
 
 <script>
 import AppHeader from './components/common/AppHeader.vue';
+import AppFooter from './components/common/AppFooter.vue';
+import ToastPopup from './components/common/ToastPopup.vue';
 
 export default {
   name: 'App',
 
   components: {
     AppHeader,
+    ToastPopup,
+    AppFooter,
   },
 
   data: () => ({

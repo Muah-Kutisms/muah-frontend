@@ -1,7 +1,7 @@
 function saveAuthToCookie(value) {
   document.cookie = `til_auth=${value}`;
 }
-
+//쿠키를 `` 안의 형태로 넣어줌.
 function saveUserToCookie(value) {
   document.cookie = `til_user=${value}`;
 }
@@ -10,7 +10,7 @@ function getAuthFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)til_auth\s*=\s*([^;]*).*$)|^.*$/,
     '$1',
-  );
+  ); //정규식 적용
 }
 
 function getUserFromCookie() {
