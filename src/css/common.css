@@ -6,6 +6,7 @@ body {
 	width: 100%;
 	height: 100%;
   font-size: 1.4rem;
+  font-family: NotoSansMedium;
 }
 .app-contents {
   height: calc(100% - 64px - 102px);
@@ -185,3 +186,39 @@ a:hover {
 	background: #fe9616;
 	border: 3px solid white;
 }
+
+.v-application {
+	font-family: 'NotoSansMedium', sans-serif !important;
+  }
+  
+  
+  @font-face {
+	font-family:'NotoSansBlack';
+	src: url('../assets/fonts/NotoSansKR-Black.otf') format('opentype');
+
+  }
+  @font-face {
+	font-family:'NotoSansBold';
+	src: url('../assets/fonts/NotoSansKR-Bold.otf') format('opentype');
+
+  }
+  @font-face {
+	font-family:'NotoSansLight';
+	src: url('../assets/fonts/NotoSansKR-Light.otf') format('opentype');
+
+  }
+  @font-face {
+	font-family:'NotoSansMedium';
+	src: url('../assets/fonts/NotoSansKR-Medium.otf') format('opentype');
+
+  }
+  @font-face {
+	font-family:'NotoSansRegular';
+	src: url('../assets/fonts/NotoSansKR-Regular.otf') format('opentype');
+
+  }
+  @font-face {
+	font-family:'NotoSansThin';
+	src: url('../assets/fonts/NotoSansKR-Thin.otf') format('opentype');
+
+  }

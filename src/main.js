@@ -1,16 +1,17 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from '@/routes/index';
-import store from '@/store/index';
-import { formatDate } from '@/utils/filters';
-import vuetify from './plugins/vuetify';
+import router from './routes';
+import store from './store';
+import * as filters from './utils/filters.js';
+import vuetify from '@/plugins/vuetify';
 
-Vue.filter('formatDate', formatDate);
 Vue.config.productionTip = false;
 
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
+
 new Vue({
-  render: h => h(App),
   router,
-  vuetify,
   store,
+  vuetify,
+  render: h => h(App),
 }).$mount('#app');

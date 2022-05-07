@@ -1,17 +1,16 @@
 <template>
-  <div class="app">
+  <div data-app class="app">
     <AppHeader></AppHeader>
     <div class="app-contents">
       <router-view></router-view>
     </div>
-    <AppFooter></AppFooter>
     <ToastPopup></ToastPopup>
   </div>
 </template>
 
 <script>
 import AppHeader from './components/common/AppHeader.vue';
-import AppFooter from './components/common/AppFooter.vue';
+// import AppFooter from './components/common/AppFooter.vue';
 import ToastPopup from './components/common/ToastPopup.vue';
 
 export default {
@@ -20,7 +19,6 @@ export default {
   components: {
     AppHeader,
     ToastPopup,
-    AppFooter,
   },
 
   data: () => ({
@@ -28,3 +26,6 @@ export default {
   }),
 };
 </script>
+<style>
+@import './css/common.css';
+</style>

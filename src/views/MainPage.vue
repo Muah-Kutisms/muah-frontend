@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="background">
     <div class="main list-container contents">
-      <PageHeader>여기가 메인 페이지 입니다.</PageHeader>
+      여기가 메인 페이지 입니다.
     </div>
   </div>
 </template>
@@ -70,5 +70,11 @@ ul > li {
 }
 .ion-md-create {
   padding-left: 0.1rem;
+}
+.background {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  background-color: #faf6e8;
 }
 </style>
