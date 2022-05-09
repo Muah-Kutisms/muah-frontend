@@ -9,13 +9,15 @@
         </div>
       </v-col>
       <v-col>
-        <div class="navigations" style="margin-right:5%">
+        <div
+          class="navigations basicFont"
+          style="margin-right:5%; font-size: 2rem; white-space:nowrap;"
+        >
           <v-menu
             v-for="([text, rounded], index) in menu"
             :key="index"
             offset-y
             open-on-hover
-            rounded="0"
           >
             <template v-slot:activator="{ attrs, on }">
               <button
@@ -26,20 +28,19 @@
                 @mouseover="buttonColor[index] = true"
                 @mouseleave="buttonColor[index] = false"
                 :class="{ on: buttonColor[index] }"
-                style="margin-right:10px; color:#633500"
+                style="margin-right:10px; color:#633500; "
               >
-                <span style="font-size: 27px; font-family:NotoSansMedium">
+                <span>
                   {{ text }}
                 </span>
               </button>
             </template>
 
-            <v-list v-if="text == '장례서비스'" color="#E9DFCC" outlined>
+            <v-list v-if="text == '장례서비스'" color="#E9DFCC">
               <v-list-item
                 v-for="([type, nav], item) in items"
                 :key="item"
                 link
-                style="box-shadow: none;"
               >
                 <v-list-item-title
                   ><div style="text-align:center">
@@ -139,10 +140,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4% 20px;
+  padding: 40px 20px;
   z-index: 2;
   background-color: #faf6e8;
   font-family: NotoSansMedium;
+  min-width: 1000px;
 }
 a {
   color: #dedede;
@@ -171,9 +173,5 @@ a.logo {
 a.router-link-exact-active {
   color: white;
   font-weight: bold;
-}
-
-.v {
-  border-radius: 100px !important;
 }
 </style>

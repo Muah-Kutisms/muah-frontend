@@ -1,9 +1,69 @@
 <template>
-  <div class="background">
-    <div class="main list-container contents">
-      여기가 메인 페이지 입니다.
-    </div>
-  </div>
+  <v-container fluid>
+    <v-row style="justify-content: center;">
+      <div class="background">
+        <v-col>
+          <div>
+            <div
+              class="mainFont span"
+              style="font-size: 80px; overflow: hidden;"
+            >
+              <span>For Your<br /></span>
+              <span> Pet’s<br /> </span>
+              <span> Afterlife</span>
+            </div>
+            <div
+              style="font-size: 20px; "
+              class="span"
+              min-width="500"
+              max-width="500"
+            >
+              <span>
+                ‘
+              </span>
+              <span style="color:#FF3D00">무</span>
+              <span>지개 다리</span><span style="color:#FF3D00"> 아</span
+              ><span>래에서’의 줄임말로, 사랑하는 반려동물과의<br /> </span>
+              <span> 마지막 기억을 만들어 드리는 장례 상조 서비스입니다.</span>
+            </div>
+          </div>
+        </v-col>
+        <v-col>
+          <div>
+            <v-img
+              src="@/assets/pet.png"
+              min-width="500"
+              max-width="500"
+              height="auto"
+              style="margin-left:100px; overflow: hidden;"
+            ></v-img>
+          </div>
+        </v-col>
+      </div>
+    </v-row>
+    <v-row style="margin-top:30px">
+      <v-col>
+        <div class="background" style="justify-content: center;">
+          <v-btn
+            x-large
+            color="#633500"
+            dark
+            width="510"
+            style="border-radius:25px;"
+            ><span style="font-size:32px">장례서비스</span></v-btn
+          >
+          <v-btn
+            x-large
+            color="#633500"
+            dark
+            width="510"
+            style="border-radius:25px; margin-left:100px"
+            ><span style="font-size:32px">무지개상회</span></v-btn
+          >
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -18,63 +78,15 @@ export default {
 </script>
 
 <style scoped>
-.list-container {
-  padding-top: 13px;
+.span {
+  white-space: nowrap;
 }
-.list-container.sticky {
-  margin-top: 76px;
-}
-ul {
-  display: flex;
-  flex-wrap: wrap;
-}
-ul > li {
-  position: relative;
-  flex-grow: 1;
-  width: 320px;
-  height: 250px;
-  margin: 7px;
-  padding: 10px 20px;
-  background: white;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 3px;
-}
-.post-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.post-contents {
-  height: 160px;
-  overflow-y: auto;
-  font-size: 18px;
-}
-.post-time {
-  position: absolute;
-  bottom: 4px;
-  right: 5px;
-  font-size: 14px;
-  color: #9e9e9e;
-}
-.icon {
-  font-size: 1.3rem;
-  cursor: pointer;
-  color: #364f6b;
-  padding-right: 0.4rem;
-}
-.icon:hover {
-  color: #3fc1c9;
-}
-.icon:active {
-  color: #fc5185;
-}
-.ion-md-create {
-  padding-left: 0.1rem;
-}
+
 .background {
-  height: 100vh;
   overflow: hidden;
-  margin: 0;
   background-color: #faf6e8;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
 }
 </style>
