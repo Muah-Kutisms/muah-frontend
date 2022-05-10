@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import store from '@/store/index';
 import LoginView from '../views/LoginView';
 import MainView from '../views/MainPage';
+import funeral from '../views/UserEstimate';
+import estimateCustomer from '../views/UserEstimateOption';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -42,23 +44,23 @@ export default new Router({
     // 	beforeEnter,
     // },
     // {
-    // 	path: '/funeral ', 장례서비스
-    // 	name: 'funeral ',
-    // 	component: ,
-    // 	beforeEnter,
+    //   path: '/funeral ',
+    //   name: 'funeral ',
+    //   component: funeral,
+    //   //beforeEnter,
     // },
-    // {
-    // 	path: '/funeral/estimate', 맞춤견적 - 사용자 확인
-    // 	name: 'estimate',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
-    // {
-    // 	path: '/funeral/estimate/customer', 맞춤견적 견적내기
-    // 	name: 'estimateCustomer',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/funeral/estimate',
+      name: 'funeral',
+      component: funeral,
+      //beforeEnter,
+    },
+    {
+      path: '/funeral/estimate/customer',
+      name: 'estimateCustomer',
+      component: estimateCustomer,
+      //beforeEnter,
+    },
     // {
     // 	path: '/funeral/instructor', 출장서비스
     // 	name: 'instructor',

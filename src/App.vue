@@ -1,7 +1,7 @@
 <template>
   <div data-app class="app">
     <AppHeader></AppHeader>
-    <div class="app-contents">
+    <div>
       <router-view></router-view>
     </div>
     <ToastPopup></ToastPopup>
