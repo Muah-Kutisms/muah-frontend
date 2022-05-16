@@ -1,11 +1,11 @@
 <template>
   <div
-    style="width:1920px; height: 850px; display:flex; align-items:center; justify-content:center;"
+    style="width:1920px; height: 1000px; display:flex; align-items:start; justify-content:center; margin-top:2%"
   >
     <v-card
       class="r"
       style="display:flex; justify-content:center;"
-      width="50%"
+      width="1028px"
       height="70%"
     >
       <div style="width:100%; height:100%">
@@ -24,38 +24,26 @@
                   class="btn btnradius"
                   depressed
                   :style="{ background: user == item ? '#FF8B4A' : '#BB6400' }"
-                  ><span style="font-size:24px">{{ userType }}</span></v-btn
+                  ><span style="font-size:28px">{{ userType }}</span></v-btn
                 >
               </span>
             </div>
           </v-col>
         </v-row>
-        <v-row style="width:100%; height:60%">
+        <v-row style="width:100%; height:80%">
           <v-col>
             <div
-              style="display:flex; justify-content:center; align-items:center; margin-top:5%; width:100%; height:80%"
+              style="display:flex; justify-content:center; align-items:center; width:100%; height:100%"
             >
-              <div v-if="user == 'basic'">
+              <div v-if="user == 'basic'" style="width:70%; height:80%">
+                <SignUpForm :type="user" @validate="false"> </SignUpForm>
+              </div>
+              <div v-if="user == 'store'" style="width:70%; height:80%">
                 <SignUpForm :type="user"> </SignUpForm>
               </div>
-              <div v-if="user == 'store'">
+              <div v-if="user == 'maker'" style="width:70%; height:80%">
                 <SignUpForm :type="user"> </SignUpForm>
               </div>
-              <div v-if="user == 'maker'">
-                <SignUpForm :type="user"> </SignUpForm>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row style="width:100%; height:20%">
-          <v-col
-            style="display:flex; justify-content:center; align-items:center;"
-          >
-            <div>
-              <v-btn @click="submit"
-                ><span v-if="user == 'basic' && basic == 1">다음으로</span>
-                <span v-else>가입</span>
-              </v-btn>
             </div>
           </v-col>
         </v-row>
@@ -77,24 +65,11 @@ export default {
         ['maker', '작가'],
       ],
       user: 'basic',
-      basic: 1,
+
+      validate: false,
     };
   },
-  methods: {
-    submit() {
-      if (this.user == 'basic') {
-        if (this.basic == 1) {
-          this.basic++;
-        } else {
-          //axios
-        }
-      } else if (this.user == 'store') {
-        //axios
-      } else if (this.user == 'user') {
-        //axios
-      }
-    },
-  },
+  methods: {},
   mounted() {
     console.log('연결');
   },
