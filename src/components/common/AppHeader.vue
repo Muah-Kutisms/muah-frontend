@@ -28,7 +28,8 @@
                 @mouseover="buttonColor[index] = true"
                 @mouseleave="buttonColor[index] = false"
                 :class="{ on: buttonColor[index] }"
-                style="margin-right:10px; color:#633500; "
+                class="s1"
+                style="margin-right:10px; color:#633500;  font-size:27px;"
               >
                 <span>
                   {{ text }}
@@ -136,6 +137,10 @@ export default {
   background-color: #e0b67c;
 }
 
+.s1 {
+  text-shadow: 2px 2px 2px lightgray;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -143,7 +148,7 @@ header {
   padding: 40px 20px;
   z-index: 2;
   background-color: #faf6e8;
-  font-family: NotoSansMedium;
+  font-family: NotoSansLight;
   min-width: 1000px;
 }
 a {

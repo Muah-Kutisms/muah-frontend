@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView';
 import MainView from '../views/MainPage';
 import funeral from '../views/UserEstimate';
 import estimateCustomer from '../views/UserEstimateOption';
+import information from '../views/SignUp';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -37,12 +38,12 @@ export default new Router({
     // 	component: ,
     // 	beforeEnter,
     // },
-    // {
-    // 	path: '/signup/information ', 회원가입 후 정보 입력
-    // 	name: 'information ',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/signup/information',
+      name: 'information',
+      component: information,
+      // beforeEnter,
+    },
     // {
     //   path: '/funeral ',
     //   name: 'funeral ',
