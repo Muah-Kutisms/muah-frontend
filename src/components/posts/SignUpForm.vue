@@ -88,6 +88,105 @@
           </div>
         </v-form>
       </div>
+      <div
+        v-if="type == 'basic' && basic > 1"
+        style="width:100%;  margin-top:-10%"
+      >
+        <v-form ref="basicform2">
+          <div style="float:left; width:50%; height:70%; margin-top:8%">
+            <div style="">
+              <p><span>*</span>반려동물 사진</p>
+              <v-card outlined width="215px" height="203px"> </v-card>
+              <div style=" margin-top: 5%">
+                <v-btn width="215px" height="57px">파일 업로드</v-btn>
+              </div>
+            </div>
+          </div>
+          <div style="float:right;  width:50%;">
+            <div style="width:100%; height:50%">
+              <p><span>*</span>반려동물 이름</p>
+              <v-text-field
+                label="반려동물 이름을 입력해주세요."
+                v-model="petName"
+                single-line
+                outlined
+                :rules="pet_name_rule"
+              ></v-text-field>
+            </div>
+            <div style="width:100%; margin-top:-5%">
+              <p><span>*</span>닉네임</p>
+              <v-text-field
+                label="닉네임을 입력해주세요."
+                single-line
+                outlined
+                v-model="nickname"
+                class="textfieldwidth"
+                :rules="nickname_rule"
+              ></v-text-field>
+            </div>
+            <div style="width:100%; margin-right:3%; margin-top:-5%">
+              <p>
+                <span>*</span>전화번호
+                <!-- <label v-if="!isPhoneNumberVaild" style="font-size:5px"
+                >양식을 지켰는지 확인해주세요</label
+              > -->
+              </p>
+              <v-text-field
+                label="010-1234-5678"
+                single-line
+                outlined
+                v-model="phone_number"
+                class="textfieldwidth"
+                :rules="phone_rule"
+              ></v-text-field>
+            </div>
+            <div style="width:100%; margin-top:-5%; margin-bottom:-5%">
+              <p><span>*</span>반려동물 무게</p>
+              <v-text-field
+                label="닉네임을 입력해주세요."
+                single-line
+                outlined
+                v-model="nickname"
+                class="textfieldwidth"
+                :rules="nickname_rule"
+              ></v-text-field>
+            </div>
+          </div>
+          <div style="clear: both; margin-top:-5%">
+            <div style="display: flex; justify-content:center; margin-top:-5%">
+              <v-checkbox label="모두 동의합니다"></v-checkbox>
+              <span
+                style="font-size:15px; margin-top:18px; margin-left:25px; margin-right:25px "
+              >
+                |
+              </span>
+
+              <v-checkbox
+                id="check"
+                label="이용약관 필수 동의"
+                style="margin-right:30px; margin-left:10px"
+              >
+              </v-checkbox>
+              <v-checkbox label="개인정보 수집 및 이용 동의"></v-checkbox>
+            </div>
+          </div>
+          <div style="display: flex; justify-content:center; margin-left:1">
+            <div style="display: flex;">
+              <v-btn
+                @click="submit"
+                style="background:#FF8B4A; width:761px; height:74px"
+                class="submitbtn"
+                ><span
+                  v-if="type == 'basic' && basic == 1"
+                  style="font-size:30px"
+                  >다음으로</span
+                >
+                <span v-else style="font-size:30px">가입</span>
+              </v-btn>
+            </div>
+          </div>
+        </v-form>
+      </div>
     </div>
   </v-layout>
 </template>
@@ -124,6 +223,7 @@ export default {
       if (this.type == 'basic') {
         if (this.basic == 1) {
           this.basic++;
+          console.log(this.type, this.basic);
         } else {
           //axios
         }

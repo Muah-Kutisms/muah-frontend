@@ -3,9 +3,11 @@ import Router from 'vue-router';
 import store from '@/store/index';
 import LoginView from '../views/LoginView';
 import MainView from '../views/MainPage';
-import funeral from '../views/UserEstimate';
+import funeralEstimate from '../views/UserEstimate';
 import estimateCustomer from '../views/UserEstimateOption';
 import information from '../views/SignUp';
+import funeral from '../views/Funeral';
+import MyPage from '../views/MyPage';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -44,16 +46,16 @@ export default new Router({
       component: information,
       // beforeEnter,
     },
-    // {
-    //   path: '/funeral ',
-    //   name: 'funeral ',
-    //   component: funeral,
-    //   //beforeEnter,
-    // },
     {
-      path: '/funeral/estimate',
+      path: '/funeral',
       name: 'funeral',
       component: funeral,
+      //beforeEnter,
+    },
+    {
+      path: '/funeral/estimate',
+      name: 'funeralEstimate',
+      component: funeralEstimate,
       //beforeEnter,
     },
     {
@@ -103,12 +105,12 @@ export default new Router({
     // 	beforeEnter,
     //대충 장례식장 권한 맞는지 확인하는 함수,
     // },
-    // {
-    // 	path: '/myPage', 마이페이지
-    // 	name: 'myPage',
-    // 	component: ,
-    // 	beforeEnter, 일반 장례식장 작가 구분은 v-if로 하는게 나을듯?
-    // },
+    {
+      path: '/myPage',
+      name: 'myPage',
+      component: MyPage,
+      // beforeEnter,
+    },
     // {
     // 	path: '/myPage/myEstimate', 마이페이지 일반 내 견적 확인하기
     // 	name: 'myEstimate',
