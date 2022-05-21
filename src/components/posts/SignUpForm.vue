@@ -126,7 +126,7 @@
             </div>
             <div style="width:100%; margin-right:3%; margin-top:-5%">
               <p>
-                <span>*</span>전화번호
+                <span>*</span>반려동물 생일
                 <!-- <label v-if="!isPhoneNumberVaild" style="font-size:5px"
                 >양식을 지켰는지 확인해주세요</label
               > -->
@@ -209,6 +209,7 @@ export default {
       phone_rule: [
         v => validatePhoneNumber(v) || '핸드폰번호의 양식에 맞춰주세요',
       ],
+      birth_rule: [v => validatePhoneNumber(v) || '생년월일 양식에 맞춰주세요'],
     };
   },
   methods: {

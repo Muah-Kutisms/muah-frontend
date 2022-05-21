@@ -10,6 +10,9 @@ import funeral from '../views/Funeral';
 import MyPage from '../views/MyPage';
 import muahstore from '../views/store';
 import instructor from '../views/Instructor';
+import myEstimate from '../views/MyEstimate';
+import myPet from '../views/MyPageMyPet';
+import selectMyPet from '../views/SelectMyPet';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -36,12 +39,6 @@ export default new Router({
       component: MainView,
       //beforeEnter,
     },
-    // {
-    // 	path: '/signup ', 회원가입
-    // 	name: 'signup ',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
     {
       path: '/signup/information',
       name: 'information',
@@ -113,18 +110,24 @@ export default new Router({
       component: MyPage,
       // beforeEnter,
     },
-    // {
-    // 	path: '/myPage/myEstimate', 마이페이지 일반 내 견적 확인하기
-    // 	name: 'myEstimate',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
-    // {
-    // 	path: '/myPage/reservationHistory', 마이페이지 예약관리 (권한별로 다른 v-if)
-    // 	name: 'reservationHistory',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/myPage/myEstimate',
+      name: 'myEstimate',
+      component: myEstimate,
+      // beforeEnter,
+    },
+    {
+      path: '/myPage/selectMyPet',
+      name: 'selectMyPet',
+      component: selectMyPet,
+      // beforeEnter,
+    },
+    {
+      path: '/myPage/myPet',
+      name: 'myPet',
+      component: myPet,
+      // beforeEnter,
+    },
     // {
     // 	path: '/myPage/reservationHistory/:id', 마이페이지 일반 예약관리 세부내용 (권한별로 다른 v-if)
     // 	name: 'reservationHistoryDetail',

@@ -1,10 +1,42 @@
 <template>
   <div>
     <v-row>
-      <v-col>
+      <v-col v-if="title != '맞춤견적'">
         <v-img
           v-bind:src="filename"
           style="width: 100%; height:300px ; object-fit:cover; "
+        >
+          <div
+            v-if="title == '내 견적 확인하기'"
+            style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:200px; color:white; justify-content: start; margin-top: 50px;"
+          >
+            <div style="font-size:48px;white-space:nowrap;">
+              {{ title }}
+            </div>
+          </div>
+          <div
+            v-else-if="title != '내 견적 확인하기'"
+            style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:50px; color:white; justify-content: center;"
+          >
+            <div style="font-size:48px;white-space:nowrap;">
+              {{ title }}
+            </div>
+            <div style="font-size:28px;white-space:nowrap;">
+              {{ content1 }}
+            </div>
+            <div style=" font-size:28px;white-space:nowrap;">
+              {{ content2 }}
+            </div>
+            <div style="font-size:28px;white-space:nowrap;">
+              {{ content3 }}
+            </div>
+          </div>
+        </v-img>
+      </v-col>
+      <v-col v-else-if="title == '맞춤견적'">
+        <v-img
+          v-bind:src="filename"
+          style="width: 100%; height:280px ; object-fit:cover; "
         >
           <div
             style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:50px; color:white; justify-content: center;"
