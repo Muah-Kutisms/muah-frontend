@@ -38,9 +38,7 @@
           견적 받을 반려동물을 선택하세요.
         </div>
         <br />
-        <div
-          style="display:flex; justify-content:space-around; margin-top: 1.5%"
-        >
+        <div style="display:flex; justify-content:center; margin-top: 1.5%; ">
           <div v-for="([type, imgFile], item) in menu" :key="item">
             <v-hover v-slot="{ hover }">
               <v-btn
@@ -48,22 +46,25 @@
                 height="312px"
                 elevation="2"
                 :style="{ 'background-color': hover ? '#FFB388' : '#F1E7D4' }"
-                style="flex-direction: column;"
+                style="flex-direction: column; margin-right: 30px; border-radius: 41px;"
               >
                 <div style="display:block;">
-                  <v-row>
+                  <v-row
+                    style="height:70px; display:flex; justify-content: center; align-items:center"
+                  >
                     <v-col>
-                      <div style="font-size:30px; text-align:">
-                        {{ type }}
-                      </div>
+                      <div style="font-size:22px;" v-html="type"></div>
                     </v-col>
                   </v-row>
                   <v-row>
                     <v-col
-                      style="height:213px; display:flex; align-items:flex-end"
+                      style="height:200px; display:flex; align-items:flex-end"
                     >
                       <div>
-                        <img :src="require(`@/assets/${imgFile}.png`)" />
+                        <img
+                          :src="require(`@/assets/${imgFile}.png`)"
+                          style="width: 272px; height: 170px;"
+                        />
                       </div>
                     </v-col>
                   </v-row>
@@ -91,16 +92,20 @@ export default {
       content3: '견적 결과는 마이페이지에서 확인하실 수 있습니다.',
       pageNumber: 1,
       menu: [
-        ['맞춤 견적', 'grayCat'],
-        ['출장 서비스', 'brownDog'],
-        ['가이드북', 'grayDog'],
-        ['장례식장 후기', 'petGroup'],
+        ['납골당/봉안당', 'page2button1'],
+        ['수목장<br />(나무 아래 묻음)', 'page2button2'],
+        ['산골<br/>(자연에 뿌림)', 'page2button3'],
+        ['스톤 제작<br/>(화장한 유골로 제작)', 'page2button4'],
       ],
     };
   },
   methods: {},
   mounted() {
-    this.pageNumber = this.$route.params.pageNumber;
+    if (this.$route.params.pageNumber) {
+      this.pageNumber = this.$route.params.pageNumber;
+    } else {
+      this.pageNumber = 1;
+    }
     console.log(this.pageNumber);
   },
 };

@@ -258,7 +258,7 @@ export default {
     };
   },
   methods: {
-    init() {
+    async init() {
       //axios통신해서 값 받아오기
       //값 바인딩
       this.petSpecies = '종 입니다';
