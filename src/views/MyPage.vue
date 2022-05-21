@@ -191,6 +191,7 @@
 </template>
 
 <script>
+// import { fetchPosts } from '@/api/index';
 export default {
   data() {
     return {
@@ -216,9 +217,9 @@ export default {
     };
   },
   methods: {
-    init() {
-      //axios통신해서 값 받아오기
-      //값 바인딩
+    async init() {
+      // const { data } = await fetchPosts();
+      // this.menu = 'data';
       this.userName = '이름입니다';
       this.userEmail = '이메일입니다';
       this.userPhoneNumber = '핸드폰 번호입니다';

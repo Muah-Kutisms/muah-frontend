@@ -7,7 +7,7 @@
           style="width: 100%; height:300px ; object-fit:cover; "
         >
           <div
-            v-if="title == '내 견적 확인하기'"
+            v-if="title == '내 견적 확인하기' || '무지개상회'"
             style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:200px; color:white; justify-content: start; margin-top: 50px;"
           >
             <div style="font-size:48px;white-space:nowrap;">
