@@ -8,6 +8,8 @@ import estimateCustomer from '../views/UserEstimateOption';
 import information from '../views/SignUp';
 import funeral from '../views/Funeral';
 import MyPage from '../views/MyPage';
+import instructor from '../views/Instructor';
+import guideBook from '../views/GuideBook';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -64,18 +66,18 @@ export default new Router({
       component: estimateCustomer,
       //beforeEnter,
     },
-    // {
-    // 	path: '/funeral/instructor', 출장서비스
-    // 	name: 'instructor',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
-    // {
-    // 	path: '/funeral/guideBook', 가이드북
-    // 	name: 'guideBook',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/funeral/instructor',
+      name: 'instructor',
+      component: instructor,
+      // 	beforeEnter,
+    },
+    {
+      path: '/funeral/guideBook',
+      name: 'guideBook',
+      component: guideBook,
+      // 	beforeEnter,
+    },
     // {
     // 	path: '/funeral/review', 장례식장 후기
     // 	name: 'review',

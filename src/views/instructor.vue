@@ -34,7 +34,7 @@
         <br />
         <v-card
           style="width: 1271px; height: 346px; display:flex; justify-content:center; align-items:center; filter: dropshadow(4px 4px 3px #000);margin-top:50px;"
-          class="r"
+          class="radius"
           color="#F1FAF9"
         >
           <div style="padding-left:180px display:flex; flex-flow:row nowrap">
@@ -70,7 +70,7 @@
         </v-card>
         <v-card
           style="width: 1271px; height: 346px; display:flex; justify-content:center; align-items:center; filter: dropshadow(4px 4px 3px #000);margin-top:50px;"
-          class="r"
+          class="radius"
           color="#EFF4CF"
         >
           <div style="font-size:28px;padding-left:40px">
@@ -106,7 +106,7 @@
         </v-card>
         <v-card
           style="width: 1271px; height: 346px; display:flex; justify-content:center; align-items:center; filter: dropshadow(4px 4px 3px #000);margin-top:50px;"
-          class="r"
+          class="radius"
           color="#EDE3F5"
         >
           <div style="padding-left:180px display:flex; flex-flow:row nowrap">
@@ -168,4 +168,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.radius {
+  border-radius: 160px !important;
+}
+</style>
