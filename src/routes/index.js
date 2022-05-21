@@ -10,6 +10,7 @@ import funeral from '../views/Funeral';
 import MyPage from '../views/MyPage';
 import myEstimate from '../views/MyEstimate';
 import myPet from '../views/MyPageMyPet';
+import selectMyPet from '../views/SelectMyPet';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -36,12 +37,6 @@ export default new Router({
       component: MainView,
       //beforeEnter,
     },
-    // {
-    // 	path: '/signup ', 회원가입
-    // 	name: 'signup ',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
     {
       path: '/signup/information',
       name: 'information',
@@ -111,6 +106,12 @@ export default new Router({
       path: '/myPage/myEstimate',
       name: 'myEstimate',
       component: myEstimate,
+      // beforeEnter,
+    },
+    {
+      path: '/myPage/selectMyPet',
+      name: 'selectMyPet',
+      component: selectMyPet,
       // beforeEnter,
     },
     {

@@ -18,6 +18,7 @@
             :key="index"
             offset-y
             open-on-hover
+            content-class="my-class"
           >
             <template v-slot:activator="{ attrs, on }">
               <button
@@ -139,6 +140,11 @@ export default {
 
 .s1 {
   text-shadow: 2px 2px 2px lightgray;
+}
+
+.my-class {
+  border-radius: 0px 0px 30px 30px;
+  box-shadow: none;
 }
 
 header {
