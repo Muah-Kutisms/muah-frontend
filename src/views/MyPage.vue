@@ -1,8 +1,12 @@
 <template>
   <div>
     <div style="display:flex;flex-direction: column;">
-      <div style="display:flex; justify-content:center;">마이페이지</div>
-      <div style="display:flex; justify-content:center;">
+      <div
+        style="display:flex; justify-content:center; font-size: 32px; font-family: NotoSansBold; margin-bottom: 30px;"
+      >
+        마이페이지
+      </div>
+      <div style="display:flex; justify-content:center; margin-bottom: 50px;">
         <div v-for="([type, imgFile], item) in menu" :key="item">
           <v-hover v-slot="{ hover }">
             <div style="margin-left:50px">
@@ -14,49 +18,169 @@
                 style="flex-direction: column; border-radius:48px;"
               >
                 <div style="display:block;">
-                  <v-row>
-                    <v-col>
-                      <div style="font-size:30px; text-align:center">
-                        {{ type }}
-                      </div>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col
-                      style="height:213px; display:flex; align-items:flex-end"
+                  <div
+                    v-if="type == '배송' || type == '내가 쓴 글'"
+                    style=" height:213px; display:flex; align-items:flex-start; padding-top: 25px; padding-left: 7px;"
+                  >
+                    <div>
+                      <img :src="require(`@/assets/${imgFile}.png`)" />
+                    </div>
+                  </div>
+                  <div
+                    v-else-if="
+                      type == '내 반려동물' ||
+                        type == '찜 목록' ||
+                        type == '내 견적 확인'
+                    "
+                    style="height:213px; display:flex; align-items:flex-start"
+                  >
+                    <div>
+                      <img :src="require(`@/assets/${imgFile}.png`)" />
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style="margin-top:-50px;font-size:24px;display:flex; justify-content: center; text-align:start"
                     >
-                      <div>
-                        <img :src="require(`@/assets/${imgFile}.png`)" />
-                      </div>
-                    </v-col>
-                  </v-row>
+                      {{ type }}
+                    </div>
+                  </div>
                 </div>
               </v-btn>
             </div>
           </v-hover>
         </div>
       </div>
-      <div style="display:flex; justify-content:left;">회원정보 관리</div>
-      <div style="display:flex; justify-content:left;">
-        <div>
-          <v-card outlined width="215px" height="203px"> </v-card>
-          <div>
-            <v-btn width="215px" height="57px">파일 업로드</v-btn>
+      <div
+        style="display:flex; justify-content:left; color: #462908;   text-shadow: 1px 1px 1px lightgray;
+         margin-left: 210px; font-size: 32px; margin-bottom: 15px;"
+      >
+        회원정보 관리
+      </div>
+      <div
+        style="display:flex; justify-content:center; margin-left: 50px; margin-bottom: 50px;"
+      >
+        <div style="margin-right: 70px;">
+          <v-card outlined width="215px" height="267px"
+            ><v-img v-bind:src="img"></v-img>
+          </v-card>
+          <div style="margin-top:10px; ">
+            <v-btn
+              width="212px"
+              height="39px"
+              depressed
+              color="#E3BF96"
+              style="font-size:22px; border-radius:9px"
+              ><div style="font-size:24px; color:white">파일 업로드</div></v-btn
+            >
           </div>
         </div>
         <div>
-          <v-data-table
+          <table>
+            <thead>
+              <tr style="min-width:264px; ">
+                <th><span>이름</span></th>
+                <th class="tableBorder"><span>이메일</span></th>
+                <th class="tableBorder"><span>전화번호</span></th>
+                <th class="tableBorder"><span>닉네임</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tableWidth" style="font-family: NotoSansRegular;">
+                <td>
+                  <v-card
+                    outlined
+                    style="background-color:rgba(34,34,34,0); width: 473px; margin-left:25px"
+                    ><div style="margin-left:25px">
+                      {{ userName }}
+                    </div></v-card
+                  >
+                </td>
+                <td class="tableBorder">
+                  <span>{{ userEmail }}</span>
+                </td>
+                <td class="tableBorder">
+                  <span>{{ userPhoneNumber }}</span>
+                </td>
+                <td class="tableBorder">
+                  <span>{{ userNickname }}</span>
+                </td>
+              </tr>
+              <tr class="tableWidth ">
+                <td></td>
+                <td class="tableBorder">
+                  <v-btn
+                    width="350px"
+                    height="50px"
+                    color="#E3BF96"
+                    style=" display:flex; align-items:center; justify-content:center; border-radius: 15px;"
+                  >
+                    <div
+                      style="display:flex; justify-content:center; align-items:center;"
+                    >
+                      <v-img
+                        src="@/assets/google.png"
+                        width="53"
+                        height="40"
+                        contain
+                      ></v-img>
+                      <p
+                        style="font-size:27px; color:white;text-transform:lowercase"
+                      >
+                        google 로그인
+                      </p>
+                    </div>
+                  </v-btn>
+                </td>
+                <td class="tableBorder">
+                  <v-btn
+                    width="154px"
+                    height="50px"
+                    depressed
+                    color="#E3BF96"
+                    bark
+                    style="border-radius:9px"
+                    ><div style="font-size:24px; color:white">
+                      변경하기
+                    </div></v-btn
+                  >
+                </td>
+                <td class="tableBorder">
+                  <v-btn
+                    width="154px"
+                    depressed
+                    bark
+                    color="#E3BF96"
+                    height="50px"
+                    style="border-radius:9px"
+                    ><div style="font-size:24px; color:white">
+                      변경하기
+                    </div></v-btn
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- <v-data-table
             :headers="headers"
+            hide-default-header
+            hide-default-footer
             :items="desserts"
-            :items-per-page="5"
             class="elevation-1"
-          ></v-data-table>
+          ></v-data-table> -->
         </div>
       </div>
-      <div style="display:flex; justify-content:left;">
+      <div
+        style="display:flex; justify-content:left; margin-left: 210px; font-size: 32px;
+        color: #462908;   text-shadow: 1px 1px 1px lightgray;"
+      >
         예약내역
-        <v-btn width="675px" height="80px"
-          ><span style="font-size:25px">
+        <v-btn
+          width="675px"
+          height="80px"
+          style="margin-left: 200px; background-color: #FDFCF7; display: flex;justify-content: flex-start;"
+          ><span style="font-size:25px;  padding-left: 20px;">
             <span style="color:red">{{ number }}건</span>의 예약 내역이
             있습니다.</span
           ></v-btn
@@ -71,109 +195,38 @@ export default {
   data() {
     return {
       menu: [
-        ['내 반려동물', 'grayCat'],
-        ['찜 목록', 'brownDog'],
-        ['배송', 'grayDog'],
-        ['내가 쓴 글', 'petGroup'],
-        ['내 견적 확인', 'petGroup'],
+        ['내 반려동물', 'mypage1'],
+        ['찜 목록', 'mypage2'],
+        ['배송', 'mypage3'],
+        ['내가 쓴 글', 'mypage4'],
+        ['내 견적 확인', 'mypage5'],
       ],
+      userName: String,
+      userEmail: String,
+      userPhoneNumber: String,
+      userNickname: String,
       number: 0,
       headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
+        { text: 'name', value: 'name' },
+        { text: 'content', value: 'content' },
+        { text: 'etc', value: 'etc' },
       ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-      ],
+      desserts: [],
+      img: require('@/assets/women.png'),
     };
+  },
+  methods: {
+    init() {
+      //axios통신해서 값 받아오기
+      //값 바인딩
+      this.userName = '이름입니다';
+      this.userEmail = '이메일입니다';
+      this.userPhoneNumber = '핸드폰 번호입니다';
+      this.userNickname = '닉네임 입니다';
+    },
+  },
+  mounted() {
+    this.init();
   },
 };
 </script>
@@ -181,5 +234,47 @@ export default {
 <style scoped>
 .btn:hover {
   color: '#FFB388';
+}
+table {
+  display: flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-collapse: collapse;
+  height: 323px;
+  width: 1264px;
+  font-size: 30px;
+}
+
+tbody,
+thead {
+  display: flex;
+}
+
+th,
+td {
+  display: block;
+  padding: 10px;
+  text-align: start;
+  height: 80px;
+  line-height: 60px;
+}
+th {
+  background-color: #ffffff;
+  color: #676767;
+
+  font-family: NotoSansRegular !important;
+  font-weight: lighter !important;
+}
+
+.tableWidth {
+  min-width: 300px;
+}
+.tableBorder {
+  border-top: 1px solid lightgray;
+}
+table span {
+  margin-left: 50px;
 }
 </style>
