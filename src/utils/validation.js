@@ -11,4 +11,9 @@ function validatePhoneNumber(number) {
   return re.test(String(number).toLowerCase());
 }
 
-export { validateEmail, validatePhoneNumber };
+function validateBirth(number) {
+  var re = /^([0-9]{4})-?([0-9]{2})-?([0-9]{2})$/;
+  return re.test(String(number).toLowerCase());
+}
+
+export { validateEmail, validatePhoneNumber, validateBirth };
