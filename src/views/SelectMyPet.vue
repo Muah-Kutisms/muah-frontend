@@ -132,21 +132,155 @@
           준비를 원하는 날짜를 선택해주세요.
         </div>
         <br />
-        <div style="display:flex; justify-content:center; margin-top: -1%; ">
+
+        <div
+          style="display:flex; justify-content:center; align-items: center; margin-top: -1%; "
+        >
           <v-date-picker
             v-model="picker"
             color="#572F00"
             style="background-color:#572F00; width: 450px;"
             show-adjacent-months
+            :min="s_date"
           ></v-date-picker>
+          <span>
+            <v-card
+              style="width:370px; height:378px; margin-left: 10%; margin-right: 10%; box-shadow: none !important;"
+            >
+              <div style="color: #FF5C00; padding-top:30px">
+                기타
+              </div>
+              <div>
+                <v-radio-group
+                  v-model="wayOption"
+                  column
+                  style="margin-left:10%"
+                >
+                  <v-radio
+                    color="#FF5C00"
+                    label="최대한 빠르게 부탁드립니다."
+                    value="빠르게"
+                    style="margin-bottom:5%"
+                  ></v-radio>
+                  <v-radio
+                    color="#FF5C00"
+                    label="신경써서 부탁드립니다."
+                    value="정성"
+                    style="margin-bottom:5%"
+                  ></v-radio>
+                  <v-radio
+                    color="#FF5C00"
+                    label="문자로 견적서 보내주세요."
+                    value="문자 견적서 요청"
+                    style="margin-bottom:5%"
+                  ></v-radio>
+                  <v-radio
+                    color="#FF5C00"
+                    label="자유입력"
+                    value="text"
+                  ></v-radio> </v-radio-group
+                ><v-text-field
+                  v-if="wayOption == 'text'"
+                  v-model="text"
+                  outlined
+                  style="width:100%; padding-left: 10%; padding-right: 10%;"
+                ></v-text-field>
+              </div>
+            </v-card>
+          </span>
+          <span>
+            <v-img
+              src="@/assets/next.png"
+              contain
+              style="width:74px; height:56px; margin-left: 600%; margin-top: -90px;"
+              @click="choice(4)"
+            ></v-img>
+          </span>
         </div>
       </span>
+    </div>
+    <div
+      style="position:relative;  text-align:center;"
+      v-else-if="pageNumber == 5"
+    >
+      <span style=" font-size:30px;">
+        <div
+          style="display:flex; justify-content:center; align-items: center; margin-top: 5%; "
+        >
+          <span style="margin-right:10%">
+            <div>
+              <div style="margin-bottom:7%; color: #FF5C00;">
+                고객님이 계신 지역을 선택해주세요.
+              </div>
+              <div style="margin-bottom:7%">
+                <v-btn @click="apiOpen()" style="font-size:29px"
+                  >주소 검색</v-btn
+                >
+              </div>
+              <div>
+                <v-text-field
+                  solo
+                  disabled
+                  v-model="addr"
+                  placeholder="주소(필수)"
+                >
+                </v-text-field>
+              </div>
+              <div>
+                <v-text-field
+                  solo
+                  v-model="subAddr"
+                  placeholder="세부주소(필수)"
+                ></v-text-field>
+              </div>
+            </div>
+          </span>
+          <span
+            style="display:flex; align-items: center; flex-direction: column; justify-content: flex-start; height: 385px;"
+          >
+            <div style="color: #FF5C00; margin-bottom:7%;">
+              장례 관련 문의사항을 알려주세요!
+            </div>
+            <v-textarea
+              solo
+              width="498px"
+              height="211px"
+              counter="255"
+              v-model="question"
+              :rules="rules"
+            ></v-textarea>
+          </span>
+          <span>
+            <v-img
+              src="@/assets/next.png"
+              contain
+              style="width:74px; height:56px; margin-left: 400%;"
+              @click="choice(5)"
+            ></v-img>
+          </span>
+        </div>
+      </span>
+    </div>
+    <div
+      style="position:relative;  text-align:center;"
+      v-else-if="pageNumber == 6"
+    >
+      <div style="margin-top:150px; text-align:center; width:100%">
+        <div style="color: #FF5C00;font-size:64px;">
+          맞춤 견적이 완료되었습니다!
+        </div>
+        <br />
+        <div
+          style="margin-top: 3%; font-size: 32px; font-family: NotoSansLight;"
+        >
+          <span>마이페이지에서 내 견적 확인하기를 확인해주세요.</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { log } from 'console';
 import SubHeader from '../components/common/SubHeader.vue';
 
 export default {
@@ -154,6 +288,11 @@ export default {
   data() {
     return {
       picker: null,
+      text: null,
+      addr: null,
+      subAddr: null,
+      question: null,
+      s_date: new Date().toISOString().substr(0, 10),
       title: '맞춤견적',
       content1: '견적을 통해 장례 비용을 비교해 보세요',
       content2:
@@ -173,6 +312,9 @@ export default {
         ['수의', 'page3button3'],
         ['염습', 'page3button4'],
       ],
+      rules: [v => v.length <= 255 || 'Max 25 characters'],
+
+      wayOption: null,
     };
   },
   methods: {
@@ -180,11 +322,30 @@ export default {
       if (pageNumber == 2) {
         this.way = type;
         this.pageNumber++;
-      }
-      if (pageNumber == 3) {
+      } else if (pageNumber == 3) {
         this.service = type;
         this.pageNumber++;
+      } else if (pageNumber == 4) {
+        console.log(this.picker);
+        if (this.picker != null) {
+          this.pageNumber++;
+        }
+      } else if (pageNumber == 5) {
+        if (this.addr != null && this.subAddr != null) {
+          this.pageNumber++;
+          this.submit();
+        }
       }
+    },
+    submit() {
+      console.log('제출');
+    },
+    apiOpen() {
+      new window.daum.Postcode({
+        oncomplete: data => {
+          this.addr = data.address;
+        },
+      }).open();
     },
   },
   mounted() {
@@ -204,8 +365,22 @@ element.style {
   background: white !important;
   width: 450px !important;
 }
-
-::v-deep .v-btn {
-  /* background-color: red !important; */
+::v-deep .v-responsive__sizer {
+  width: 0px;
 }
+::v-deep .theme--light.v-text-field--solo > .v-input__control > .v-input__slot,
+.theme--light.v-btn.v-btn--has-bg {
+  background: #f6eedd;
+  border-radius: 22px;
+  width: 463px;
+  height: 72px;
+}
+/* 
+::v-deep .v-input--selection-controls__ripple {
+  color: red;
+}
+
+.v-radio .v-icon {
+  color: blue;
+} */
 </style>
