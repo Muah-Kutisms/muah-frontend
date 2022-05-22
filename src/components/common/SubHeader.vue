@@ -61,8 +61,11 @@
       style="margin-top:-30px"
       v-if="title != '내 견적 확인하기' && title != '무지개상회'"
     >
-      <v-col>
-        <span v-for="item in menu" :key="item">
+      <div
+        style="width:100%; height: 13px; background-color:#e77636;margin-top: 18px; z-index: 1;"
+      ></div>
+      <v-col style="margin-top: -18px">
+        <span v-for="(item, index) in menu" :key="index">
           <v-btn
             width="25%"
             height="100px"
@@ -71,7 +74,7 @@
             color="#faf6e8"
             dark
             outlined
-            style="background: #572F00;"
+            :class="{ on: buttonStatus[index], off: !buttonStatus[index] }"
             ><span style="font-size:30px"> {{ item }}</span>
           </v-btn>
         </span>
@@ -89,6 +92,7 @@ export default {
     content1: String,
     content2: String,
     content3: String,
+    buttonStatus: Array,
   },
   data() {
     return {
@@ -107,5 +111,14 @@ export default {
 }
 div {
   text-shadow: 2px 2px 2px gray;
+}
+
+.on {
+  border-radius: 0px 0px 50px 50px;
+  background: #e77636;
+}
+
+.off {
+  background: #572f00;
 }
 </style>

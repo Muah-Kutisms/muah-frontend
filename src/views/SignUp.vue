@@ -23,7 +23,7 @@
                   @click="[(user = item), (item = true)]"
                   class="btn btnradius"
                   depressed
-                  :style="{ background: user == item ? '#FF8B4A' : '#BB6400' }"
+                  :style="{ background: user == item ? '#FF8B4A' : '#E3BF96' }"
                   ><span style="font-size:28px">{{ userType }}</span></v-btn
                 >
               </span>

@@ -55,7 +55,7 @@
         style="display:flex; justify-content:left; color: #462908;   text-shadow: 1px 1px 1px lightgray;
          margin-left: 210px; font-size: 32px; margin-bottom: 15px;"
       >
-        회원정보 관리
+        회원 정보 관리
       </div>
       <div
         style="display:flex; justify-content:center; margin-left: 50px; margin-bottom: 50px;"
@@ -179,10 +179,10 @@
         <v-btn
           width="675px"
           height="80px"
-          style="margin-left: 200px; background-color: #FDFCF7; display: flex;justify-content: flex-start;"
-          ><span style="font-size:25px;  padding-left: 20px;">
-            <span style="color:red">{{ number }}건</span>의 예약 내역이
-            있습니다.</span
+          @click="$router.push({ path: `myPage/myEstimate` })"
+          style="margin-left: 200px; background-color: #FF5C00; display: flex;justify-content: flex-start;"
+          ><span style="font-size:25px;  padding-left: 20px; color:white">
+            {{ number }}건의 예약 내역이 있습니다.</span
           ></v-btn
         >
       </div>
