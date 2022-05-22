@@ -4,9 +4,13 @@
   >
     <v-card
       class="r"
-      style="display:flex; align-items:center; justify-content:center;"
+      style="display:flex; align-items:center; justify-content:center; flex-direction: column; "
       flat
     >
+      <v-row
+        style="align-items:flex-end; margin-bottom: 30px; margin-top: -30px;"
+        ><v-col> <img src="@/assets/register.png" /> </v-col
+      ></v-row>
       <v-row>
         <v-col>
           <div style="display:flex; justify-content:center; align-items:center">
@@ -25,7 +29,10 @@
                   height="67"
                   contain
                 ></v-img>
-                <span style="font-size:30px; color:white">goole 로그인</span>
+                <span
+                  style="font-size:30px; color:white; text-transform:lowercase"
+                  >google 로그인</span
+                >
               </span>
             </v-btn>
           </div>
