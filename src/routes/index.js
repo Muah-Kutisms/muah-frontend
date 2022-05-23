@@ -8,11 +8,14 @@ import estimateCustomer from '../views/UserEstimateOption';
 import information from '../views/SignUp';
 import funeral from '../views/Funeral';
 import MyPage from '../views/MyPage';
-import muahstore from '../views/store';
+//import muahstore from '../views/store';
 import instructor from '../views/Instructor';
 import myEstimate from '../views/MyEstimate';
 import myPet from '../views/MyPageMyPet';
 import selectMyPet from '../views/SelectMyPet';
+import guidebook from '../views/GuideBook';
+import funeralHome from '../views/funeralHome';
+import funeralHomedetail from '../views/funeralHomeDetail';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -69,12 +72,12 @@ export default new Router({
       component: instructor,
       // 	beforeEnter,
     },
-    // {
-    // 	path: '/funeral/guideBook', 가이드북
-    // 	name: 'guideBook',
-    // 	component: ,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/funeral/guideBook',
+      name: 'guideBook',
+      component: guidebook,
+      // 	beforeEnter,
+    },
     // {
     // 	path: '/funeral/review', 장례식장 후기
     // 	name: 'review',
@@ -86,24 +89,24 @@ export default new Router({
     // 	component: ,
     // 	beforeEnter,
     // },
-    // {
-    // 	path: '/funeral/estimate/funeralHome', 맞춤 견적 - 고객견적 확인하기
-    //이거 로그인한 사람 아이디 쿼리로 보내기
-    // 	name: 'funeralHome',
-    // 	component: ,
-    // 	beforeEnter,
-    //  대충 장례식장 권한 맞는지 확인하는 함수,
-
+    {
+      path: '/funeral/estimate/funeralHome',
+      //이거 로그인한 사람 아이디 쿼리로 보내기
+      name: 'funeralHome',
+      component: funeralHome,
+      // beforeEnter,
+      //  대충 장례식장 권한 맞는지 확인하는 함수,
+    },
     //<router-link :to="{name: 'funeralHome', query: {userId: 'cat'}}"></router-link>
     //참고링크 https://velog.io/@skyepodium/vue-router%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0-eskrsmr3
     // },
-    // {
-    // 	path: '/funeral/estimate/funeralHome/:id', 로그인한 사람이 받은 예약 내역의 세부페이지
-    // 	name: 'funeralHomeDetail', 맞춤 견적 - 고객견적 확인하기의 세부페이지
-    // 	component: ,
-    // 	beforeEnter,
-    //대충 장례식장 권한 맞는지 확인하는 함수,
-    // },
+    {
+      path: '/funeral/estimate/funeralHome/:id',
+      name: 'funeralHomeDetail',
+      component: funeralHomedetail,
+      // 	beforeEnter,
+      //대충 장례식장 권한 맞는지 확인하는 함수,
+    },
     {
       path: '/myPage',
       name: 'myPage',
@@ -134,12 +137,12 @@ export default new Router({
     // 	component: ,
     // 	beforeEnter,
     // },
-    {
-      path: '/store',
-      name: 'muahstore',
-      component: muahstore,
-      // 	beforeEnter,
-    },
+    //{
+    //   path: '/store',
+    //   name: 'muahstore',
+    //   component: muahstore,
+    // 	beforeEnter,
+    // },
     // {
     // 	path: '/store/:id, 무지개상회 상세내용
     // 	name: 'storeDetail',
