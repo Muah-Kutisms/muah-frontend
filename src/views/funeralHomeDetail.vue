@@ -43,113 +43,123 @@
                 </div>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col>
-                <div style="margin-left:-450px;margin-top:20px;">
-                  <v-btn
-                    style="border-radius:20px; width: 180x; height: 51px; 
+            <v-row style="margin-left:-470px;margin-top:40px;">
+              <v-col cols="auto">
+                <v-btn
+                  style="border-radius:20px; width: 180x; height: 51px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold; float:left;"
-                  >
-                    예약 대기
-                  </v-btn>
-                  <v-btn
-                    style="border-radius:20px; width: 180x; height: 51px
-; 
+                     font-family: NotoSansBold;"
+                >
+                  예약 대기
+                </v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  style="border-radius:20px; width: 180x; height: 51px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold; float:left;"
-                  >
-                    예약 승인 전
-                  </v-btn>
-
-                  <v-btn
-                    style="border-radius:20px; width: 180x; height: 51px; 
-                    color: #552D00; background-color: #FACE97; font-size: 24px;
-                     font-family: NotoSansBold; float:left;"
-                  >
-                    예약 승인하기
-                  </v-btn>
-                  <v-btn
-                    style="border-radius:20px; width: 180x; height: 51px; 
+                     font-family: NotoSansBold;"
+                >
+                  예약 승인 전
+                </v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  style="border-radius:20px; width: 180x; height: 51px; 
+                    color: #552D00; background-color: #FACE97
+; font-size: 24px;
+                     font-family: NotoSansBold;"
+                >
+                  예약 승인하기
+                </v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  style="border-radius:20px; width: 180x; height: 51px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold; float:left;"
-                  >
-                    예약 승인 후
-                  </v-btn>
-                </div>
+                     font-family: NotoSansBold;"
+                >
+                  예약 승인 후
+                </v-btn>
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
-                <div style="margin-left: -450px;margin-top:30px">
-                  <table>
-                    <thead>
-                      <tr style="min-width:300px; ">
-                        <th class="tableBorder"><span>종</span></th>
-                        <th class="tableBorder"><span>무게</span></th>
-                        <th class="tableBorder"><span>안치 방법</span></th>
-                        <th class="tableBorder"><span>추가 서비스</span></th>
-                        <th class="tableBorder"><span>날짜</span></th>
-                        <th class="tableBorder"><span>지역</span></th>
-                        <th
-                          class="tableBorder"
-                          style="border-bottom: 1px solid lightgray;"
-                        >
-                          <span>문의사항</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        class="tableWidth "
-                        style="font-family: NotoSansRegular; width: 964px;"
+              <div style="margin-left: -440px;margin-top:30px;">
+                <table>
+                  <thead>
+                    <tr style="min-width:300px; ">
+                      <th class="tableBorder"><span>종</span></th>
+                      <th class="tableBorder"><span>무게</span></th>
+                      <th class="tableBorder"><span>안치 방법</span></th>
+                      <th class="tableBorder"><span>추가 서비스</span></th>
+                      <th class="tableBorder"><span>날짜</span></th>
+                      <th class="tableBorder"><span>지역</span></th>
+                      <th
+                        class="tableBorder"
+                        style="border-bottom: 1px solid lightgray;"
                       >
-                        <td class="tableBorder">
-                          {{ petSpecies }}
-                        </td>
-                        <td class="tableBorder">
-                          <span>{{ petWeight }}</span>
-                        </td>
-                        <td class="tableBorder">
-                          <span>{{ petLayMethod }}</span>
-                        </td>
-                        <td class="tableBorder">
-                          <span>{{ addService }}</span>
-                        </td>
-                        <td class="tableBorder">
-                          <span>{{ date }}</span>
-                        </td>
-                        <td class="tableBorder">
-                          <span>{{ location }}</span>
-                        </td>
-                        <td
-                          class="tableBorder tableBorderBottom"
-                          style="border-bottom: 1px solid lightgray;"
-                        >
-                          <span>{{ question }}</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        <span>문의사항</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="tableWidth "
+                      style="font-family: NotoSansRegular; width: 964px;"
+                    >
+                      <td class="tableBorder">
+                        {{ petSpecies }}
+                      </td>
+                      <td class="tableBorder">
+                        <span>{{ petWeight }}</span>
+                      </td>
+                      <td class="tableBorder">
+                        <span>{{ petLayMethod }}</span>
+                      </td>
+                      <td class="tableBorder">
+                        <span>{{ addService }}</span>
+                      </td>
+                      <td class="tableBorder">
+                        <span>{{ date }}</span>
+                      </td>
+                      <td class="tableBorder">
+                        <span>{{ location }}</span>
+                      </td>
+                      <td
+                        class="tableBorder tableBorderBottom"
+                        style="border-bottom: 1px solid lightgray;"
+                      >
+                        <span>{{ question }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-                  <!-- <v-data-table
+                <!-- <v-data-table
             :headers="headers"
             hide-default-header
             hide-default-footer
             :items="desserts"
             class="elevation-1"
           ></v-data-table> -->
-                </div>
-                <v-row>
-                  <v-col>
-                    <div style="font-size:26px">
-                      <span style="font-family: NotoSansBold;">[합계]</span
-                      ><span style="color:#FF3636">{{ item.price }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-col>
+              </div>
             </v-row>
+          </div>
+          <div
+            style="font-size:26px;margin-top:-100px;margin-left:-450px;display:flex;
+"
+          >
+            <span style="font-family: NotoSansBold;">[합계] </span
+            ><span style="color:#FF3636">{{ item.price }}</span>
+          </div>
+          <div style="margin-left:445px;">
+            <v-btn
+              width="180px"
+              height="51.4px"
+              style="border-radius:7px; color: #552D00
+;background-color: #FF6868; font-size: 24px; font-family: NotoSansBold;"
+            >
+              견적내기
+            </v-btn>
           </div>
         </v-img>
       </v-col>
@@ -179,13 +189,13 @@ export default {
         {
           petdata: '초코',
           context: '견적 세부내역',
-          price: '56만원',
+          price: '55만원',
           createDate: '2022-05-07',
         },
         {
           petdata: '시루',
           context: '견적 세부내용',
-          price: '56만원',
+          price: '55만원',
           createDate: '2022-05-07',
         },
       ],
