@@ -7,6 +7,7 @@
       :content1="content1"
       :content2="content2"
       :content3="content3"
+      :buttonStatus="buttonStatus"
     ></SubHeader>
     <div style="position:relative;  text-align:center;">
       <div
@@ -47,6 +48,7 @@ export default {
       content2:
         '맞춤 견적으로 최적의 장례식장 선택, 장례 절차 대행을 위한 장례지도사,',
       content3: '전반적인 장례 과정을 이해할 수 있는 가이드북까지',
+      buttonStatus: [true, false, false, false],
     };
   },
 };

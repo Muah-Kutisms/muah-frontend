@@ -4,14 +4,26 @@
       :filename="require('@/assets/myEstimate.png')"
       width="100%"
       :title="title"
-      :content1="content1"
-      :content2="content2"
-      :content3="content3"
     ></SubHeader>
     <v-row>
       <v-col>
+        <v-select
+          v-model="estimateId"
+          label="내 견적서"
+          :items="options"
+          item-text="petName"
+          item-value="estimateId"
+          solo
+          flat
+          style="max-width:263px !important; height:74px !important; margin-left: 130px; margin-top: 50px;"
+        >
+        </v-select>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <div
-          style="margin-left: 150px; margin-top: 100px; font-size: 32px; margin-bottom: 20px; color: #462908;   text-shadow: 1px 1px 1px lightgray;"
+          style="margin-left: 150px; margin-top: 30px; font-size: 32px; margin-bottom: 20px; color: #462908;   text-shadow: 1px 1px 1px lightgray;"
         >
           견적 입력정보
         </div>
@@ -122,14 +134,33 @@
                 <template v-slot:activator="{ on, attrs }">
                   <div style="padding-top:10px">
                     <v-btn
+                      v-if="item.status == '예약전'"
                       v-bind="attrs"
                       v-on="on"
-                      @click="on()"
+                      @click="statusChange(index)"
                       style="border-radius:20px; width: 150px; height: 43px; 
                     color: #552D00; background-color: #FFECD6; font-size: 24px;
                      font-family: NotoSansBold; float:right; margin-right:7%;"
                     >
                       예약하기
+                    </v-btn>
+                    <v-btn
+                      v-if="item.status == '예약 승인'"
+                      @click="statusChange(index)"
+                      style="border-radius:20px; width: 150px; height: 43px; 
+                    color: #552D00; background-color: #FF4646; font-size: 24px;
+                     font-family: NotoSansBold; float:right; margin-right:7%;"
+                    >
+                      결제하기
+                    </v-btn>
+                    <v-btn
+                      v-if="item.status == '예약 대기'"
+                      @click="statusChange(index)"
+                      style="border-radius:20px; width: 150px; height: 43px; 
+                    color: #552D00; background-color: #FFECD6; font-size: 24px;
+                     font-family: NotoSansBold; float:right; margin-right:7%;"
+                    >
+                      예약 취소
                     </v-btn>
                   </div>
                 </template>
@@ -178,7 +209,33 @@
             </div>
             <div style="margin-left: 15px; width: 100%; height: 100%;">
               <div
-                style="margin-top:100px; font-size:23px; width:93%;  height: 10%; overflow:auto; overflow-y: auto;"
+                v-if="item.status == '결제 완료'"
+                style="width:93%;  height: 13%; overflow:auto; overflow-y: auto; margin-bottom:10px;"
+              >
+                <v-btn
+                  readonly
+                  style="border-radius:20px; width: 150px; height: 43px; 
+                    color: #552D00; background-color: #FACE97; font-size: 24px;
+                     font-family: NotoSansBold; float:left; margin-right:7%;  "
+                >
+                  {{ item.status }}
+                </v-btn>
+              </div>
+              <div
+                v-else-if="item.status == '예약 대기'"
+                style="width:93%;  height: 13%; overflow:auto; overflow-y: auto; margin-bottom:10px;"
+              >
+                <v-btn
+                  readonly
+                  style="border-radius:20px; width: 150px; height: 43px; 
+                    color: #552D00; background-color: #FACE97; font-size: 24px;
+                     font-family: NotoSansBold; float:left; margin-right:7%;  "
+                >
+                  {{ item.status }}
+                </v-btn>
+              </div>
+              <div
+                style="font-size:23px; width:93%;  height: 10%; overflow:auto; overflow-y: auto;"
               >
                 견적 안내드립니다.
               </div>
@@ -201,6 +258,7 @@
 
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
+import Vue from 'vue';
 
 export default {
   components: { SubHeader },
@@ -215,44 +273,41 @@ export default {
       location: String,
       question: String,
       count: Number,
+      estimateId: null,
       dialog: false,
       imgFile: 'card',
+      options: [
+        { petId: 1, petName: '몽몽이', estimateId: 1 },
+        { petId: 1, petName: '몽몽이', estimateId: 2 },
+      ],
       petData: [
         {
           petdata: '송 장례식장',
           context: '견적 세부내역',
-          price: '56만원',
+          price: 100,
           createDate: '2022-03-12',
+          status: '예약전',
         },
         {
           petdata: '순 장례식장',
           context: '견적 세부내용',
-          price: '56만원',
+          price: 10,
           createDate: '2022-03-12',
+          status: '예약 승인',
         },
         {
           petdata: '솔 장례식장',
           context: '견적 세부내용',
-          price: '56만원',
+          price: 10000,
           createDate: '2022-03-12',
+          status: '결제 완료',
         },
         {
           petdata: '수 장례식장',
           context: '견적 세부내용',
-          price: '56만원',
+          price: 10000,
           createDate: '2022-03-12',
-        },
-        {
-          petdata: '솔 장례식장',
-          context: '견적 세부내용',
-          price: '56만원',
-          createDate: '2022-03-12',
-        },
-        {
-          petdata: '수 장례식장',
-          context: '견적 세부내용',
-          price: '56만원',
-          createDate: '2022-03-12',
+          status: '예약전',
         },
       ],
     };
@@ -269,14 +324,56 @@ export default {
       this.location = '장소 입니다';
       this.question = '문의사항 입니다';
     },
-    on() {
-      this.dialog = true;
+    statusChange(index, status) {
+      console.log(status);
+      if (this.petData[index].status == '예약전') {
+        this.dialog = true;
+        //axios통신으로 상태 바꾸기
+        this.petData[index].status = '예약 대기';
+      } else if (this.petData[index].status == '예약 승인') {
+        this.Payment(index);
+      } else if (this.petData[index].status == '예약 대기') {
+        this.petData[index].status = '예약전';
+      }
+    },
+    Payment(index) {
+      Vue.IMP().request_pay(
+        {
+          pg: 'html5_inicis',
+          pay_method: 'card',
+          merchant_uid: 'merchant_' + new Date().getTime(),
+          name: '주문명:결제테스트',
+          amount: this.petData[index].price,
+          buyer_email: 'iamport@siot.do',
+          buyer_name: '구매자이름',
+          buyer_tel: '010-1234-5678',
+          buyer_addr: '서울특별시 강남구 삼성동',
+          buyer_postcode: '123-456',
+        },
+        result_success => {
+          //성공할 때 실행 될 콜백 함수
+          var msg = '결제가 완료되었습니다.';
+          msg += '고유ID : ' + result_success.imp_uid;
+          msg += '상점 거래ID : ' + result_success.merchant_uid;
+          msg += '결제 금액 : ' + result_success.paid_amount;
+          msg += '카드 승인번호 : ' + result_success.apply_num;
+          alert(msg);
+          this.petData[index].status = '결제 완료';
+          console.log(this.petData[index]);
+        },
+        result_failure => {
+          //실패시 실행 될 콜백 함수
+          var msg = '결제에 실패하였습니다.';
+          msg += '에러내용 : ' + result_failure.error_msg;
+          alert(msg);
+        },
+      );
     },
   },
   watch: {
-    dialog: function(newVal, oldVal) {
-      console.log(newVal, oldVal);
-    },
+    // dialog: function(newVal, oldVal) {
+    //   console.log(newVal, oldVal);
+    // },
   },
   mounted() {
     this.init();
@@ -328,5 +425,15 @@ th {
 ::v-deep .v-dialog {
   box-shadow: none !important;
   border-radius: 25px !important;
+}
+
+::v-deep .v-input__slot {
+  min-height: 74px;
+
+  background-color: #fe843c !important;
+}
+
+::v-deep .v-text-field .v-input__slot {
+  border-radius: 20px 20px 0px 0px;
 }
 </style>

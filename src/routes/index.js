@@ -16,6 +16,7 @@ import selectMyPet from '../views/SelectMyPet';
 import guidebook from '../views/GuideBook';
 import funeralHome from '../views/funeralHome';
 import funeralHomedetail from '../views/funeralHomeDetail';
+import funeralcheck from '../views/funeralcheck';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
@@ -130,6 +131,11 @@ export default new Router({
       name: 'myPet',
       component: myPet,
       // beforeEnter,
+    },
+    {
+      path: '/funeral/check',
+      name: 'funeralcheck',
+      component: funeralcheck,
     },
     // {
     // 	path: '/myPage/reservationHistory/:id', 마이페이지 일반 예약관리 세부내용 (권한별로 다른 v-if)

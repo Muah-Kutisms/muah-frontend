@@ -14,7 +14,7 @@
           style="margin-right:5%; font-size: 2rem; white-space:nowrap;"
         >
           <v-menu
-            v-for="([text, rounded], index) in menu"
+            v-for="(text, index) in menu"
             :key="index"
             offset-y
             open-on-hover
@@ -26,11 +26,12 @@
                 v-bind="attrs"
                 v-on="on"
                 depressed
+                rounded
                 @mouseover="buttonColor[index] = true"
                 @mouseleave="buttonColor[index] = false"
                 :class="{ on: buttonColor[index] }"
                 class="s1"
-                style="margin-right:10px; color:#633500;  font-size:27px;"
+                style="margin-right:50px; color:#633500;  font-size:27px; width:162px"
               >
                 <span>
                   {{ text }}
@@ -39,11 +40,7 @@
             </template>
 
             <v-list v-if="text == '장례서비스'" color="#E9DFCC">
-              <v-list-item
-                v-for="([type, nav], item) in items"
-                :key="item"
-                link
-              >
+              <v-list-item v-for="(nav, item) in items" :key="item" link>
                 <v-list-item-title
                   ><div style="text-align:center">
                     <span>{{ nav }}</span>
@@ -102,18 +99,8 @@ export default {
   },
   data() {
     return {
-      menu: [
-        ['장례서비스', 'b-xl'],
-        ['무지개상회', 'b-xl'],
-        ['마이페이지', 'b-xl'],
-        ['로그아웃', 'b-xl'],
-      ],
-      items: [
-        ['장례서비스', '맞춤 견적'],
-        ['장례서비스', '출장 서비스'],
-        ['장례서비스', '가이드북'],
-        ['장례서비스', '장례식장 후기'],
-      ],
+      menu: ['장례서비스', '무지개상회', '마이페이지', '로그아웃'],
+      items: ['맞춤 견적', '출장 서비스', '가이드북', '장례식장 후기'],
       buttonColor: [false, false, false, false],
     };
   },
@@ -136,6 +123,7 @@ export default {
 
 .on {
   background-color: #e0b67c;
+  border-radius: 20px 20px 0px 0px;
 }
 
 .s1 {
