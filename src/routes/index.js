@@ -8,7 +8,7 @@ import estimateCustomer from '../views/UserEstimateOption';
 import information from '../views/SignUp';
 import funeral from '../views/Funeral';
 import MyPage from '../views/MyPage';
-//import muahstore from '../views/store';
+import muahstore from '../views/Store';
 import instructor from '../views/Instructor';
 import myEstimate from '../views/MyEstimate';
 import myPet from '../views/MyPageMyPet';
@@ -137,12 +137,12 @@ export default new Router({
     // 	component: ,
     // 	beforeEnter,
     // },
-    //{
-    //   path: '/store',
-    //   name: 'muahstore',
-    //   component: muahstore,
-    // 	beforeEnter,
-    // },
+    {
+      path: '/store',
+      name: 'muahstore',
+      component: muahstore,
+      // 	beforeEnter,
+    },
     // {
     // 	path: '/store/:id, 무지개상회 상세내용
     // 	name: 'storeDetail',
