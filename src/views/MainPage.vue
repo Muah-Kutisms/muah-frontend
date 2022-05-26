@@ -74,6 +74,10 @@ export default {
   },
   methods: {},
   created() {},
+  mounted() {
+    let a = this.$route.query.id;
+    console.log(a);
+  },
 };
 </script>
 

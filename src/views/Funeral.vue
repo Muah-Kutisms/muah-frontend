@@ -27,8 +27,9 @@
             width="510"
             height="79"
             style="border-radius:25px;"
+            @click="$router.push({ path: `myPage/selectMyPet` })"
             ><span style="font-size:32px; font-family: NotoSansBold;"
-              >장례서비스</span
+              >일반회원 전용</span
             ></v-btn
           >
           <v-btn
@@ -37,7 +38,7 @@
             height="79"
             style="border-radius:25px; margin-left:100px"
             ><span style="font-size:32px; font-family: NotoSansBold;"
-              >무지개상회</span
+              >장례업체 전용</span
             ></v-btn
           >
         </div>

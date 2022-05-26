@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <div>
-          <router-link :to="logoLink" class="logo">
+          <router-link to="/main" class="logo">
             <v-img src="@/assets/muah.png" width="198"></v-img>
           </router-link>
         </div>
@@ -27,15 +27,14 @@
                 v-on="on"
                 depressed
                 rounded
+                @click="link(text)"
                 @mouseover="buttonColor[index] = true"
                 @mouseleave="buttonColor[index] = false"
                 :class="{ on: buttonColor[index] }"
                 class="s1"
                 style="margin-right:50px; color:#633500;  font-size:27px; width:162px"
               >
-                <span>
-                  {{ text }}
-                </span>
+                <span> {{ text }} </span>
               </button>
             </template>
 
@@ -86,20 +85,19 @@
 </template>
 
 <script>
-import { deleteCookie } from '@/utils/cookies';
+import {
+  deleteCookie,
+  getAuthFromCookie,
+  getUserFromCookie,
+} from '@/utils/cookies';
+import { GetUser } from '@/api/index';
 
 export default {
-  computed: {
-    isUserLogin() {
-      return this.$store.getters.isLogin;
-    },
-    logoLink() {
-      return this.$store.getters.isLogin ? '/main' : '/login';
-    },
-  },
   data() {
     return {
-      menu: ['장례서비스', '무지개상회', '마이페이지', '로그아웃'],
+      menu: '',
+      loginmenu: ['장례서비스', '무지개상회', '마이페이지', '로그인'],
+      logoutmenu: ['장례서비스', '무지개상회', '마이페이지', '로그아웃'],
       items: ['맞춤 견적', '출장 서비스', '가이드북', '장례식장 후기'],
       buttonColor: [false, false, false, false],
     };
@@ -110,7 +108,41 @@ export default {
       this.$store.commit('clearToken');
       deleteCookie('til_auth');
       deleteCookie('til_user');
-      this.$router.push('/login');
+      this.$router.go('/main');
+    },
+    async link(text) {
+      if (text == '장례서비스') {
+        this.$router.push({ path: `funeral` });
+      } else if (text == '로그아웃') {
+        this.logoutUser();
+      } else if (text == '로그인') {
+        this.$router.push({ path: `login` });
+      } else if (text == '마이페이지') {
+        let id = getUserFromCookie();
+        const { data } = await GetUser(id);
+        if (data.data.role == 'ROLE_USER') {
+          this.$router.push({ path: `mypage` });
+        }
+      }
+    },
+    async init() {
+      if (await getAuthFromCookie()) {
+        this.menu = this.logoutmenu;
+      } else {
+        this.menu = this.loginmenu;
+      }
+    },
+  },
+  created() {},
+  mounted() {
+    this.init();
+  },
+  watch: {
+    menu: {
+      handler() {
+        console.log('메뉴변동');
+      },
+      deep: true,
     },
   },
 };

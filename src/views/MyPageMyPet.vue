@@ -28,7 +28,6 @@
           :items="options"
           item-text="name"
           item-value="id"
-          :rules="user_auth_rule"
           solo
           rounded
           flat
@@ -78,20 +77,19 @@
                     style="font-family: NotoSansRegular; width: 290px;"
                   >
                     <td class="tableBorder">
-                      <!-- {{ 셀렉트값의 petId 를 통해 가지고 온 옵션값에서 
-                      해당하는 객체 찾은 후 새 변수에 넣어야 할듯 }} -->
+                      {{ petName }}
+                    </td>
+                    <td class="tableBorder">
+                      <span>{{ petLay }}</span>
                     </td>
                     <td class="tableBorder">
                       <span>{{ petWeight }}</span>
-                    </td>
-                    <td class="tableBorder">
-                      <span>{{ petLayMethod }}</span>
                     </td>
                     <td
                       class="tableBorder tableBorderBottom"
                       style="border-bottom: 1px solid lightgray;"
                     >
-                      <span>{{ question }}</span>
+                      <span>{{ petBirthday }}</span>
                     </td>
                   </tr>
                 </tbody>
@@ -109,7 +107,7 @@
                 @click="
                   $router.push({
                     name: `selectMyPet`,
-                    params: { pageNumber: 2 },
+                    params: { pageNumber: 2, petId: id },
                   })
                 "
                 >이 반려동물로 견적내기</span
@@ -123,17 +121,43 @@
 </template>
 
 <script>
+import { getAllMyPetEstimate, getMyPetEstimate } from '@/api/index';
 export default {
   data() {
     return {
-      options: [
-        { id: 1, name: '몽몽이', img: require('@/assets/몽몽이.png') },
-        { id: 2, name: '핑핑이', img: require('@/assets/몽몽이.png') },
-        { id: 3, name: '구핑이', img: require('@/assets/몽몽이.png') },
-        { name: '반려동물 추가하기', img: require('@/assets/몽몽이.png') },
-      ],
+      options: [],
       petId: Number,
+      petName: '',
+      petLay: '',
+      petWeight: '',
+      petBirthday: '',
+      id: '',
     };
+  },
+  methods: {
+    async init() {
+      const data = await getAllMyPetEstimate();
+      this.options = data.data.data;
+    },
+    async getMyPet(id) {
+      const petData = await getMyPetEstimate(id);
+      let pet = petData.data.data;
+
+      this.petName = pet.name;
+      this.petLay = pet.name;
+      this.petBirthday =
+        pet.birthdate[0] + '-' + pet.birthdate[1] + '-' + pet.birthdate[2];
+      this.petWeight = pet.weight;
+      this.id = pet.id;
+    },
+  },
+  mounted() {
+    this.init();
+  },
+  watch: {
+    petId: function(newVal) {
+      this.getMyPet(newVal);
+    },
   },
 };
 </script>

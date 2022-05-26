@@ -11,8 +11,8 @@
           v-model="estimateId"
           label="내 견적서"
           :items="options"
-          item-text="petName"
-          item-value="estimateId"
+          item-text="name"
+          item-value="id"
           solo
           flat
           style="max-width:263px !important; height:74px !important; margin-left: 130px; margin-top: 50px;"
@@ -259,6 +259,7 @@
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
 import Vue from 'vue';
+import { GetMyEstimate } from '@/api/index';
 
 export default {
   components: { SubHeader },
@@ -276,45 +277,25 @@ export default {
       estimateId: null,
       dialog: false,
       imgFile: 'card',
-      options: [
-        { petId: 1, petName: '몽몽이', estimateId: 1 },
-        { petId: 1, petName: '몽몽이', estimateId: 2 },
-      ],
-      petData: [
-        {
-          petdata: '송 장례식장',
-          context: '견적 세부내역',
-          price: 100,
-          createDate: '2022-03-12',
-          status: '예약전',
-        },
-        {
-          petdata: '순 장례식장',
-          context: '견적 세부내용',
-          price: 10,
-          createDate: '2022-03-12',
-          status: '예약 승인',
-        },
-        {
-          petdata: '솔 장례식장',
-          context: '견적 세부내용',
-          price: 10000,
-          createDate: '2022-03-12',
-          status: '결제 완료',
-        },
-        {
-          petdata: '수 장례식장',
-          context: '견적 세부내용',
-          price: 10000,
-          createDate: '2022-03-12',
-          status: '예약전',
-        },
-      ],
+      options: [],
+      petData: [],
     };
   },
   methods: {
     async init() {
       //axios통신해서 값 받아오기
+      //내 반려동물
+      const estimateData = await GetMyEstimate();
+      console.log(estimateData.data.data);
+      if (estimateData.data.data.length == 0) {
+        this.options = [
+          { id: '견적서가 없습니다.', name: '견적서가 없습니다.' },
+        ];
+      } else {
+        //내 견적 정보
+        this.options = estimateData.data.data;
+      }
+
       //값 바인딩
       this.petSpecies = '종 입니다';
       this.petWeight = '무게 입니다';
@@ -323,6 +304,10 @@ export default {
       this.date = '날짜 입니다';
       this.location = '장소 입니다';
       this.question = '문의사항 입니다';
+    },
+    async getMyE(id) {
+      //여기는 받아온 반려동물 id의 견적서를 조회합니다.
+      console.log(id);
     },
     statusChange(index, status) {
       console.log(status);
@@ -371,12 +356,13 @@ export default {
     },
   },
   watch: {
-    // dialog: function(newVal, oldVal) {
-    //   console.log(newVal, oldVal);
-    // },
+    estimateId: function(newVal) {
+      this.getMyE(newVal);
+    },
   },
   mounted() {
     this.init();
+    this.getMyE();
   },
 };
 </script>
