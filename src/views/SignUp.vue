@@ -65,13 +65,15 @@ export default {
         ['maker', '작가'],
       ],
       user: 'basic',
-
+      count: true,
       validate: false,
     };
   },
-  methods: {},
+  methods: {
+    async init() {},
+  },
   mounted() {
-    console.log('연결');
+    this.init();
   },
 };
 </script>

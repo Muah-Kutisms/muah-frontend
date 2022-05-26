@@ -13,6 +13,13 @@ function getAuthFromCookie() {
   ); //정규식 적용
 }
 
+function getUserRoleFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)til_auth\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  ); //정규식 적용
+}
+
 function getUserFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)til_user\s*=\s*([^;]*).*$)|^.*$/,
@@ -29,5 +36,6 @@ export {
   saveUserToCookie,
   getAuthFromCookie,
   getUserFromCookie,
+  getUserRoleFromCookie,
   deleteCookie,
 };

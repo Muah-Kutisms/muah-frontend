@@ -1,7 +1,90 @@
 <template>
   <v-layout>
     <div style="width:100%; height:100%">
-      <div v-if="basic == 1">
+      <div v-if="type == 'store'">
+        <v-form ref="basicform">
+          <div style="width:60%; margin-top:-5%">
+            <p><span>*</span>이름</p>
+            <v-text-field
+              label="이름을 입력해주세요."
+              v-model="name"
+              single-line
+              outlined
+              :rules="name_rule"
+            ></v-text-field>
+          </div>
+          <div style="width:60%;">
+            <p><span>*</span>주소</p>
+            <v-text-field
+              label="주소를 입력해주세요."
+              single-line
+              outlined
+              v-model="adree"
+              class="textfieldwidth"
+              :rules="nickname_rule"
+            ></v-text-field>
+          </div>
+          <div style="width:100%">
+            <div style="width:60%; display: inline-block; margin-right:3%">
+              <p>
+                <span>*</span>전화번호
+                <!-- <label v-if="!isPhoneNumberVaild" style="font-size:5px"
+                >양식을 지켰는지 확인해주세요</label
+              > -->
+              </p>
+              <v-text-field
+                label="010-1234-5678"
+                single-line
+                outlined
+                v-model="phone_number"
+                class="textfieldwidth"
+                :rules="phone_rule"
+              ></v-text-field>
+            </div>
+            <div style="display: inline-block">
+              <v-btn
+                height="58px"
+                width="178px"
+                depressed
+                style="background:#D3D3D3"
+                ><span style="font-size:20px; color:#8C8C8C" depressed
+                  >인증요청</span
+                ></v-btn
+              >
+            </div>
+          </div>
+          <div style="display: flex; justify-content:center; margin-left:1">
+            <div style="display: flex;">
+              <v-checkbox label="모두 동의합니다"></v-checkbox>
+              <span
+                style="font-size:15px; margin-top:18px; margin-left:25px; margin-right:25px "
+              >
+                |
+              </span>
+
+              <v-checkbox
+                id="check"
+                label="이용약관 필수 동의"
+                style="margin-right:30px; margin-left:10px"
+              >
+              </v-checkbox>
+            </div>
+            <v-checkbox label="개인정보 수집 및 이용 동의"></v-checkbox>
+          </div>
+          <div style="display: flex; justify-content:center; margin-left:1">
+            <div style="display: flex;">
+              <v-btn
+                @click="submit"
+                style="background:#FF8B4A; width:761px; height:74px"
+                class="submitbtn"
+              >
+                <span style="font-size:30px">가입</span>
+              </v-btn>
+            </div>
+          </div>
+        </v-form>
+      </div>
+      <div v-if="type != 'store' && basic == 1">
         <v-form ref="basicform">
           <div style="width:60%; margin-top:-5%">
             <p><span>*</span>이름</p>
@@ -92,13 +175,29 @@
         v-if="type == 'basic' && basic > 1"
         style="width:100%;  margin-top:-10%"
       >
-        <v-form ref="basicform2">
+        <v-form ref="basicform2" enctype="multipart/form-data">
           <div style="float:left; width:50%; height:70%; margin-top:8%">
             <div style="">
               <p><span>*</span>반려동물 사진</p>
-              <v-card outlined width="215px" height="203px"> </v-card>
+              <v-card outlined width="215px" height="203px"
+                ><v-img :src="imageSrc" width="215px" height="203px"></v-img>
+              </v-card>
               <div style=" margin-top: 5%">
-                <v-btn width="215px" height="57px">파일 업로드</v-btn>
+                <!-- <v-btn
+                  width="215px"
+                  height="57px"
+                  ref="image"
+                  @click="uploadImg()"
+                  >파일 업로드</v-btn
+                > -->
+                <input
+                  ref="image"
+                  @change="uploadImg()"
+                  type="file"
+                  accept="image/*"
+                  id="chooseFile"
+                  name="chooseFile"
+                />
               </div>
             </div>
           </div>
@@ -114,14 +213,14 @@
               ></v-text-field>
             </div>
             <div style="width:100%; margin-top:-5%">
-              <p><span>*</span>닉네임</p>
+              <p><span>*</span>반려동물 종류</p>
               <v-text-field
-                label="닉네임을 입력해주세요."
+                label="반려동물 종류를 입력해주세요."
                 single-line
                 outlined
-                v-model="nickname"
+                v-model="petKind"
                 class="textfieldwidth"
-                :rules="nickname_rule"
+                :rules="petKind_rule"
               ></v-text-field>
             </div>
             <div style="width:100%; margin-right:3%; margin-top:-5%">
@@ -132,12 +231,12 @@
               > -->
               </p>
               <v-text-field
-                label="010-1234-5678"
+                label="yyyy-mm-dd"
                 single-line
                 outlined
-                v-model="phone_number"
+                v-model="petBirthday"
                 class="textfieldwidth"
-                :rules="phone_rule"
+                :rules="petBirthday_rule"
               ></v-text-field>
             </div>
             <div style="width:100%; margin-top:-5%; margin-bottom:-5%">
@@ -146,9 +245,9 @@
                 label="닉네임을 입력해주세요."
                 single-line
                 outlined
-                v-model="nickname"
+                v-model="petWeight"
                 class="textfieldwidth"
-                :rules="nickname_rule"
+                :rules="petWeight_rule"
               ></v-text-field>
             </div>
           </div>
@@ -192,7 +291,9 @@
 </template>
 
 <script>
-import { validatePhoneNumber } from '@/utils/validation';
+import { validatePhoneNumber, validateBirth } from '@/utils/validation';
+import { PostPet, PostUser, PutUser } from '@/api/index';
+import { getUserFromCookie } from '@/utils/cookies';
 export default {
   props: {
     type: String,
@@ -203,39 +304,99 @@ export default {
       name: '',
       nickname: '',
       phone_number: '',
+      imageSrc: '',
+      id: '',
+      img: '',
+      petName: '',
+      petKind: '',
+      petBirthday: '',
+      petWeight: '',
+      adree: '',
+      imgForm: FormData,
       basic: 1,
       name_rule: [v => !!v || '이름은 필수 입력 사항입니다.'],
       nickname_rule: [v => !!v || '닉네임은 필수 입력 사항입니다.'],
       phone_rule: [
         v => validatePhoneNumber(v) || '핸드폰번호의 양식에 맞춰주세요',
       ],
-      birth_rule: [v => validatePhoneNumber(v) || '생년월일 양식에 맞춰주세요'],
+      birth_rule: [v => validateBirth(v) || '생년월일 양식에 맞춰주세요'],
+      pet_name_rule: [v => !!v || '이름은 필수 입력 사항입니다.'],
+      petKind_rule: [v => !!v || '종류는 필수 입력 사항입니다.'],
+      petBirthday_rule: [v => validateBirth(v) || '생년월일 양식에 맞춰주세요'],
+      petWeight_rule: [v => !!v || '이름은 필수 입력 사항입니다.'],
     };
   },
   methods: {
-    basicSubit() {
-      const validate = this.$refs.basicform.validate();
-      console.log(validate);
-      if (validate) {
-        this.$emit(true, validate);
-      }
+    uploadImg() {
+      console.log('들어왔다');
+
+      this.img = this.$refs['image'].files[0];
+      const url = URL.createObjectURL(this.img);
+      this.imageSrc = url;
     },
-    submit() {
+    async submit() {
+      this.id = getUserFromCookie();
+      const userData = {
+        address: {
+          city: ' ',
+          country: ' ',
+          district: ' ',
+        },
+        name: this.name,
+        nickName: this.nickname,
+        phone: this.phone_number,
+        isNew: false,
+        isApproved: false,
+        role: 'ROLE_USER',
+      };
       if (this.type == 'basic') {
         if (this.basic == 1) {
-          this.basic++;
-          console.log(this.type, this.basic);
+          const basicValidate = this.$refs.basicform.validate();
+          console.log(basicValidate);
+          if (basicValidate) {
+            let a = await PutUser(this.id, userData);
+            if (a) {
+              this.basic++;
+            }
+          }
         } else {
-          //axios
+          const basicValidate2 = this.$refs.basicform2.validate();
+          console.log(basicValidate2);
+          const request = {
+            birthdate: this.petBirthday,
+            kind: this.petKind,
+            name: this.petName,
+            userId: this.id,
+            weight: this.petWeight,
+          };
+          console.log(request);
+          this.imgForm = new FormData();
+          this.imgForm.append('imgFile', this.img);
+          this.imgForm.append(
+            'request',
+            new Blob([JSON.stringify(request)], { type: 'application/json' }),
+          );
+
+          if (basicValidate2) {
+            let a = await PostPet(this.imgForm);
+            console.log(a);
+            this.$router.go('/main');
+          }
         }
       } else if (this.type == 'store') {
-        //axios
-      } else if (this.type == 'user') {
-        //axios
+        userData.role = 'ROLE_COMPANY';
+        await PostUser(userData);
+        this.$router.go('/main');
+      } else if (this.type == 'maker') {
+        userData.role = 'ROLE_SELLER';
+        await PostUser(userData);
+        this.$router.go('/main');
       }
     },
   },
-  computed: {},
+  mounted() {
+    this.basic = 1;
+  },
 };
 </script>
 

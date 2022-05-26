@@ -7,6 +7,7 @@
       :content1="content1"
       :content2="content2"
       :content3="content3"
+      :buttonStatus="buttonStatus"
     ></SubHeader>
     <div style="background-image: url('@/assets/back.png');">
       <v-row>
@@ -74,6 +75,7 @@ export default {
         ['가이드북', 'grayDog'],
         ['장례식장 후기', 'petGroup'],
       ],
+      buttonStatus: [true, false, false, false],
     };
   },
 };

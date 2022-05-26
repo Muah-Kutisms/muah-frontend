@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import vueRouter from 'vue-router';
 import store from '@/store/index';
 import LoginView from '../views/LoginView';
 import MainView from '../views/MainPage';
@@ -20,58 +20,53 @@ import funeralcheck from '../views/funeralcheck';
 //import { getUserFromCookie } from '../utils/cookies.js';
 //import store from '../store';
 
-Vue.use(Router);
+Vue.use(vueRouter);
 
-export default new Router({
+const router = new vueRouter({
   mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: '/login',
+      redirect: '/main',
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-      beforeEnter(to, from, next) {
-        store.getters['isLoggedIn'] ? next('/main') : next();
-      },
     },
     {
       path: '/main',
       name: 'main',
       component: MainView,
-      //beforeEnter,
     },
     {
       path: '/signup/information',
       name: 'information',
       component: information,
-      // beforeEnter,
     },
     {
       path: '/funeral',
       name: 'funeral',
       component: funeral,
-      //beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/funeral/estimate',
       name: 'funeralEstimate',
       component: funeralEstimate,
-      //beforeEnter,
+      meta: { auth: false },
     },
     {
       path: '/funeral/estimate/customer',
       name: 'estimateCustomer',
       component: estimateCustomer,
-      //beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/funeral/instructor',
       name: 'instructor',
       component: instructor,
-      // 	beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/funeral/guideBook',
@@ -112,25 +107,25 @@ export default new Router({
       path: '/myPage',
       name: 'myPage',
       component: MyPage,
-      // beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/myPage/myEstimate',
       name: 'myEstimate',
       component: myEstimate,
-      // beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/myPage/selectMyPet',
       name: 'selectMyPet',
       component: selectMyPet,
-      // beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/myPage/myPet',
       name: 'myPet',
       component: myPet,
-      // beforeEnter,
+      meta: { auth: true },
     },
     {
       path: '/funeral/check',
@@ -147,13 +142,12 @@ export default new Router({
       path: '/store',
       name: 'muahstore',
       component: muahstore,
-      // 	beforeEnter,
     },
     // {
     // 	path: '/store/:id, 무지개상회 상세내용
     // 	name: 'storeDetail',
     // 	component: ,
-    // 	beforeEnter,
+
     // },
     // {
     // 	path: '/store/payment/:id', 무지개상회 결제
@@ -164,11 +158,13 @@ export default new Router({
   ],
 });
 
-// function beforeEnter(to, from, next) { 로그인 검증 로직. 로그인 구현하면 활성화 할게요
-//   if (store.getters['isLoggedIn'] || getUserFromCookie()) {
-//     next();
-//   } else {
-//     alert('sign in please');
-//     next('/login');
-//   }
-// }
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !store.getters.isLogin) {
+    alert('로그인이 필요합니다.');
+    next('/login');
+    return;
+  }
+  next();
+});
+
+export default router;

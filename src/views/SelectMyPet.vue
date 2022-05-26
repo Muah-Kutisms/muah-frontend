@@ -7,6 +7,7 @@
       :content1="content1"
       :content2="content2"
       :content3="content3"
+      :buttonStatus="buttonStatus"
     ></SubHeader>
     <div style="position:relative;  text-align:center;" v-if="pageNumber == 1">
       <div style="margin-top:100px; text-align:center; width:100%">
@@ -248,6 +249,7 @@
               counter="255"
               v-model="question"
               :rules="rules"
+              placeholder="문의사항을 입력하세요"
             ></v-textarea>
           </span>
           <span>
@@ -282,12 +284,14 @@
 
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
+import { PostPetEstimate } from '@/api/index';
 
 export default {
   components: { SubHeader },
   data() {
     return {
       picker: null,
+      petId: '',
       text: null,
       addr: null,
       subAddr: null,
@@ -299,7 +303,7 @@ export default {
         '요청하신 견적서에 우리 아이를 맡길 수 있는 전문가분들이 댓글을 달아 드립니다.',
       content3: '견적 결과는 마이페이지에서 확인하실 수 있습니다.',
       pageNumber: 1,
-      way: String,
+      way: null,
       option: [
         ['납골당/봉안당', 'page2button1'],
         ['수목장<br />(나무 아래 묻음)', 'page2button2'],
@@ -312,8 +316,8 @@ export default {
         ['수의', 'page3button3'],
         ['염습', 'page3button4'],
       ],
-      rules: [v => v.length <= 255 || 'Max 25 characters'],
-
+      rules: [v => v.length <= 255 || 'Max 255 characters'],
+      buttonStatus: [true, false, false, false],
       wayOption: null,
     };
   },
@@ -337,8 +341,19 @@ export default {
         }
       }
     },
-    submit() {
-      console.log('제출');
+    async submit() {
+      const request = {
+        funeralDate: this.picker,
+        location: this.addr + ' ' + this.subAddr,
+        option: this.wayOption,
+        petId: this.petId,
+        question: this.question,
+        service: this.service,
+        way: this.way,
+      };
+      console.log(request);
+      const sub = await PostPetEstimate(request);
+      console.log(sub);
     },
     apiOpen() {
       new window.daum.Postcode({
@@ -351,10 +366,10 @@ export default {
   mounted() {
     if (this.$route.params.pageNumber) {
       this.pageNumber = this.$route.params.pageNumber;
+      this.petId = this.$route.params.petId;
     } else {
       this.pageNumber = 1;
     }
-    console.log(this.pageNumber);
   },
 };
 </script>

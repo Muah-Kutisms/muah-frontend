@@ -62,17 +62,25 @@
       >
         <div style="margin-right: 70px;">
           <v-card outlined width="215px" height="267px"
-            ><v-img v-bind:src="img"></v-img>
+            ><v-img :src="imageSrc" width="215px" height="267px"></v-img>
           </v-card>
-          <div style="margin-top:10px; ">
-            <v-btn
+          <div style="margin-top:10px; margin-right: -200px; ">
+            <!-- <v-btn
               width="212px"
               height="39px"
               depressed
               color="#E3BF96"
               style="font-size:22px; border-radius:9px"
               ><div style="font-size:24px; color:white">파일 업로드</div></v-btn
-            >
+            > -->
+            <input
+              ref="image"
+              @change="uploadImg()"
+              type="file"
+              accept="image/*"
+              id="chooseFile"
+              name="chooseFile"
+            />
           </div>
         </div>
         <div>
@@ -192,9 +200,12 @@
 
 <script>
 // import { fetchPosts } from '@/api/index';
+import { getUserFromCookie } from '@/utils/cookies';
+import { GetUser, PostUserImage, GetEstimate } from '@/api/index';
 export default {
   data() {
     return {
+      imageSrc: '',
       menu: [
         ['내 반려동물', 'mypage1'],
         ['찜 목록', 'mypage2'],
@@ -206,7 +217,9 @@ export default {
       userEmail: String,
       userPhoneNumber: String,
       userNickname: String,
+      imgForm: FormData,
       number: 0,
+      id: '',
       headers: [
         { text: 'name', value: 'name' },
         { text: 'content', value: 'content' },
@@ -218,12 +231,29 @@ export default {
   },
   methods: {
     async init() {
-      // const { data } = await fetchPosts();
-      // this.menu = 'data';
-      this.userName = '이름입니다';
-      this.userEmail = '이메일입니다';
-      this.userPhoneNumber = '핸드폰 번호입니다';
-      this.userNickname = '닉네임 입니다';
+      this.id = getUserFromCookie();
+      const { data } = await GetUser(this.id);
+      let userData = { data }.data.data;
+      console.log(userData);
+      this.imageSrc = userData.image.imageUrl;
+      this.userName = userData.name;
+      this.userEmail = userData.email;
+      this.userPhoneNumber = userData.phone;
+      this.userNickname = userData.nickname;
+      const number = await GetEstimate();
+      this.number = number.data.data.length;
+      console.log(this.number);
+    },
+    async uploadImg() {
+      console.log('들어왔다');
+
+      this.img = this.$refs['image'].files[0];
+      const url = URL.createObjectURL(this.img);
+      this.imageSrc = url;
+      this.imgForm = new FormData();
+      this.imgForm.append('imgFile', this.img);
+      let a = await PostUserImage(this.id, this.imgForm);
+      console.log(a);
     },
   },
   mounted() {
