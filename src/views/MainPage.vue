@@ -1,12 +1,14 @@
 <template>
   <v-container fluid>
-    <v-row style="justify-content: center;">
+    <v-row
+      style="justify-content: center; margin-top:100px; margin-left: -50px;"
+    >
       <div class="background">
         <v-col>
           <div>
             <div
               class="mainFont span"
-              style="font-size: 80px; overflow: hidden;"
+              style="font-size: 80px; overflow: hidden; "
             >
               <span>For Your<br /></span>
               <span> Pet’s<br /> </span>
@@ -41,9 +43,12 @@
         </v-col>
       </div>
     </v-row>
-    <v-row style="margin-top:30px">
+    <v-row style="margin-top:30px; margin-left: -50px;">
       <v-col>
-        <div class="background" style="justify-content: center;">
+        <div
+          class="background"
+          style="justify-content: center; margin-top: 50px;"
+        >
           <v-btn
             x-large
             color="#633500"

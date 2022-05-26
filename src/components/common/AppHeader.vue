@@ -108,20 +108,24 @@ export default {
       this.$store.commit('clearToken');
       deleteCookie('til_auth');
       deleteCookie('til_user');
-      this.$router.go('/main');
+      this.$router.push('/main');
     },
     async link(text) {
       if (text == '장례서비스') {
         this.$router.push({ path: `funeral` });
       } else if (text == '로그아웃') {
         this.logoutUser();
+        this.$router.push('/login');
       } else if (text == '로그인') {
-        this.$router.push({ path: `login` });
+        this.$router.push('/login');
       } else if (text == '마이페이지') {
         let id = getUserFromCookie();
         const { data } = await GetUser(id);
         if (data.data.role == 'ROLE_USER') {
-          this.$router.push({ path: `mypage` });
+          this.$router.push('/mypage');
+        }
+        if (data.data.role == 'ROLE_COMPANY') {
+          this.$router.push('/funeral/estimate/funeralHome');
         }
       }
     },

@@ -29,16 +29,24 @@
               height="283px"
               color="#DFDFDF
 "
-              ><v-img v-bind:src="img"></v-img>
+              ><v-img :src="imageSrc" width="215px" height="283px"></v-img>
             </v-card>
-            <div style="margin-top:10px; ">
-              <v-btn
+            <div style="margin-top:10px; margin-right: -300px; ">
+              <!-- <v-btn
                 width="212px"
                 height="39px"
                 color="#C2C2C2"
                 style="font-size:22px; border-radius:9px"
                 ><div style="font-size:20px;">수정하기</div></v-btn
-              >
+              > -->
+              <input
+                ref="image"
+                @change="uploadImg()"
+                type="file"
+                accept="image/*"
+                id="chooseFile"
+                name="chooseFile"
+              />
             </div>
           </div>
           <div style="margin-top:70px;">
@@ -86,6 +94,11 @@
           >
             예약 관리
           </span>
+          <span style="margin-left:1180px">
+            <v-btn width="219px" height="37px" color="#572F00" @click="go()"
+              ><span style="color:white; font-size:20px">더보기</span></v-btn
+            >
+          </span>
         </div>
       </v-col>
     </v-row>
@@ -104,39 +117,41 @@
                   <div
                     style=" font-family:NotoSansBold; float: left; font-size: 30px;font-weight:700; margin-left:130px; width: 40%;  height: 100px; overflow:auto; overflow-y:auto"
                   >
-                    {{ item.petdata }}
+                    {{ item.name }}
                   </div>
                   <div
                     style=" font-family:NotoSansRegular; float: left; vertical-align:bottom; line-height: 60px; font-size: 15px; font-weight:700;
 margin-left: -135px; color: #A2A2A2;"
                   >
-                    {{ item.createDate }}
+                    {{ item.date }}
                   </div>
                 </div>
               </v-col>
             </v-row>
             <v-row style="margin-left:40px;margin-top:-35px;">
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 150x; height: 42px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;letter-spacing:-0.3px;
-"
-                >
-                  예약 대기
-                </v-btn>
-              </v-col>
+              <v-col cols="auto"> </v-col>
               <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
+                  v-if="item.status == 'RESERVED'"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #FACE97; font-size: 24px;
                      font-family: NotoSansBold;letter-spacing:-0.3px;"
                 >
                   예약 승인 전
                 </v-btn>
+                <v-btn
+                  v-else-if="item.status == 'APPROVED'"
+                  style="border-radius:20px; width: 150x; height: 42px; 
+                    color: #552D00; background-color: #FACE97; font-size: 24px;
+                     font-family: NotoSansBold;letter-spacing:-0.3px;"
+                >
+                  결제 전
+                </v-btn>
               </v-col>
               <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
+                  v-if="item.status == 'RESERVED'"
+                  @click="changeStatus(index)"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;letter-spacing:-0.3px;
 
@@ -144,26 +159,27 @@ margin-left: -135px; color: #A2A2A2;"
                 >
                   예약 승인하기
                 </v-btn>
-              </v-col>
-              <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
+                  v-else-if="item.status == 'APPROVED'"
+                  @click="changeStatus(index)"
                   style="border-radius:20px; width: 150x; height: 42px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;letter-spacing:-0.3px;
-"
+                    color: #552D00; background-color: #CECECE; font-size: 24px;letter-spacing:-0.3px;
+
+                     font-family: NotoSansBold;"
                 >
-                  예약 승인 후
+                  승인 취소하기
                 </v-btn>
               </v-col>
+              <v-col cols="auto" style="margin-left:-15px;"> </v-col>
             </v-row>
             <v-row
               style="margin-left:60px;margin-top:20px;font-size:26px;width: 100%; height: 100%;
 "
             >
               <div style="position:relative;">
-                <div>종 : {{ petSpecies }}</div>
-                <div>무게 : {{ petWeight }}</div>
-                <div>일시 : {{ date }}</div>
+                <div>종 : {{ item.kind }}</div>
+                <div>무게 : {{ item.weight }}</div>
+                <div>일시 : {{ item.createDate }}</div>
                 <div style="float:left;">
                   ...
                 </div>
@@ -224,35 +240,9 @@ margin-left: -135px; color: #A2A2A2;"
               </v-col>
             </v-row>
             <v-row style="margin-left:40px;margin-top:-35px;">
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 150x; height: 42px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;letter-spacing:-0.3px;
-"
-                >
-                  예약 대기
-                </v-btn>
-              </v-col>
-              <v-col cols="auto" style="margin-left:-15px;">
-                <v-btn
-                  style="border-radius:20px; width: 150x; height: 42px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;letter-spacing:-0.3px;"
-                >
-                  예약 승인 전
-                </v-btn>
-              </v-col>
-              <v-col cols="auto" style="margin-left:-15px;">
-                <v-btn
-                  style="border-radius:20px; width: 150x; height: 42px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;letter-spacing:-0.3px;
-
-                     font-family: NotoSansBold;"
-                >
-                  예약 승인하기
-                </v-btn>
-              </v-col>
+              <v-col cols="auto"> </v-col>
+              <v-col cols="auto" style="margin-left:-15px;"> </v-col>
+              <v-col cols="auto" style="margin-left:-15px;"> </v-col>
               <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
                   style="border-radius:20px; width: 150x; height: 42px; 
@@ -260,7 +250,7 @@ margin-left: -135px; color: #A2A2A2;"
                      font-family: NotoSansBold;letter-spacing:-0.3px;
 "
                 >
-                  예약 승인 후
+                  결제 완료
                 </v-btn>
               </v-col>
             </v-row>
@@ -295,10 +285,19 @@ margin-left: -135px; color: #A2A2A2;"
 </template>
 
 <script>
+import {
+  PostUserImage,
+  GetUser,
+  GetCompany,
+  getPetIdData,
+  PutSheetStatus,
+} from '@/api/index';
+import { getUserFromCookie } from '@/utils/cookies';
 export default {
   data() {
     return {
       imgFile: 'card',
+      imageSrc: '',
       userName: String,
       userLocation: String,
       petSpecies: String,
@@ -317,52 +316,71 @@ export default {
         { text: 'etc', value: 'etc' },
       ],
       desserts: [],
-      petData: [
-        {
-          petdata: '초코',
-          context: '견적 세부내역',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-        {
-          petdata: '시루',
-          context: '견적 세부내용',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-      ],
-      petDatafinish: [
-        {
-          petdata: '모카',
-          context: '견적 세부내역',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-        {
-          petdata: '나비',
-          context: '견적 세부내용',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-      ],
+      petData: [],
+      petDatafinish: [],
 
       img: require('@/assets/womandog.png'),
     };
   },
   methods: {
     async init() {
+      this.id = getUserFromCookie();
+      const { data } = await GetUser(this.id);
+      let userData = { data }.data.data;
+      console.log(userData);
       // const { data } = await fetchPosts(); // this.menu =
-      'data';
-      this.userName = '이름입니다';
-      this.userLoction = '이메일입니다';
-      //axios통신해서 값 받아오기 //값 바인딩
-      this.petSpecies = '종 입니다';
-      this.petWeight = '무게 입니다';
-      this.petLayMethod = '안치 방법입니다';
-      this.addService = '추가 서비스입니다';
-      this.date = '날짜입니다';
-      this.location = '장소 입니다';
-      this.question = '문의사항 입니다';
+      this.userName = userData.funeralName;
+      this.userLocation = userData.address.city;
+      this.imageSrc = userData.image.imageUrl;
+      let Data = await GetCompany(this.id);
+      this.petData = Data.data.data[1];
+      for (let i = 0; i < this.petData.length; i++) {
+        const pet = await getPetIdData(this.petData[i].petId);
+
+        let petDetail = pet.data.data;
+        console.log(pet);
+        this.petData[i].date =
+          this.petData[i].funeralDate[0] +
+          '-' +
+          this.petData[i].funeralDate[1] +
+          '-' +
+          this.petData[i].funeralDate[2];
+        this.petData[i].name = petDetail.name;
+        this.petData[i].kind = petDetail.kind;
+        this.petData[i].weight = petDetail.weight;
+      }
+      this.petDatafinish = Data.data.data[2];
+      for (let i = 0; i < this.petDatafinish.length; i++) {
+        const pet = await getPetIdData(this.petDatafinish[i].petId);
+        let petDetail = pet.data.data;
+        this.petDatafinish[i].kind = petDetail.kind;
+        this.petDatafinish[i].weight = petDetail.weight;
+      }
+      console.log(this.petData);
+    },
+    async uploadImg() {
+      this.img = this.$refs['image'].files[0];
+      const url = URL.createObjectURL(this.img);
+      this.imageSrc = url;
+      this.imgForm = new FormData();
+      this.imgForm.append('imgFile', this.img);
+      await PostUserImage(this.id, this.imgForm);
+    },
+    go() {
+      this.$router.push(`/funeral/estimate/funeralHomeDetail`);
+    },
+    async changeStatus(index) {
+      if (this.petData[index].status == 'APPROVED') {
+        this.petData[index].status = 'RESERVED';
+        await PutSheetStatus(this.petData[index].id, {
+          status: this.petData[index].status,
+        });
+      } else if (this.petData[index].status == 'RESERVED') {
+        this.petData[index].status = 'APPROVED';
+        await PutSheetStatus(this.petData[index].id, {
+          status: this.petData[index].status,
+        });
+      }
     },
   },
   mounted() {

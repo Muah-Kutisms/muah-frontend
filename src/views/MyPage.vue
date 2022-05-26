@@ -252,8 +252,7 @@ export default {
       this.imageSrc = url;
       this.imgForm = new FormData();
       this.imgForm.append('imgFile', this.img);
-      let a = await PostUserImage(this.id, this.imgForm);
-      console.log(a);
+      await PostUserImage(this.id, this.imgForm);
     },
   },
   mounted() {

@@ -338,10 +338,11 @@ export default {
       this.id = getUserFromCookie();
       const userData = {
         address: {
-          city: ' ',
+          city: this.adree,
           country: ' ',
           district: ' ',
         },
+        funeralName: '',
         name: this.name,
         nickName: this.nickname,
         phone: this.phone_number,
@@ -371,6 +372,7 @@ export default {
           };
           console.log(request);
           this.imgForm = new FormData();
+          console.log(this.img);
           this.imgForm.append('imgFile', this.img);
           this.imgForm.append(
             'request',
@@ -380,17 +382,18 @@ export default {
           if (basicValidate2) {
             let a = await PostPet(this.imgForm);
             console.log(a);
-            this.$router.go('/main');
+            this.$router.push('/main');
           }
         }
       } else if (this.type == 'store') {
         userData.role = 'ROLE_COMPANY';
-        await PostUser(userData);
-        this.$router.go('/main');
+        userData.funeralName = this.name;
+        await PutUser(this.id, userData);
+        this.$router.push('/main');
       } else if (this.type == 'maker') {
         userData.role = 'ROLE_SELLER';
         await PostUser(userData);
-        this.$router.go('/main');
+        this.$router.push('/main');
       }
     },
   },
