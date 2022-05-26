@@ -11,7 +11,7 @@
           v-model="estimateId"
           label="내 견적서"
           :items="options"
-          item-text="name"
+          item-text="id"
           item-value="id"
           solo
           flat
@@ -114,7 +114,7 @@
               <div
                 style=" font-family:NotoSansBold; float: left; font-size: 30px; margin-left: 90px; width: 40%;  height: 100px; overflow:auto; overflow-y:auto"
               >
-                {{ item.petdata }}
+                {{ item.name }}
               </div>
               <div
                 style=" font-family:NotoSansRegular; float: left; vertical-align:bottom; line-height: 60px; font-size: 15px; margin-left: 10px; color: #A2A2A2;"
@@ -134,7 +134,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <div style="padding-top:10px">
                     <v-btn
-                      v-if="item.status == '예약전'"
+                      v-if="item.status == 'PROPOSED'"
                       v-bind="attrs"
                       v-on="on"
                       @click="statusChange(index)"
@@ -145,7 +145,7 @@
                       예약하기
                     </v-btn>
                     <v-btn
-                      v-if="item.status == '예약 승인'"
+                      v-if="item.status == 'APPROVED'"
                       @click="statusChange(index)"
                       style="border-radius:20px; width: 150px; height: 43px; 
                     color: #552D00; background-color: #FF4646; font-size: 24px;
@@ -154,7 +154,7 @@
                       결제하기
                     </v-btn>
                     <v-btn
-                      v-if="item.status == '예약 대기'"
+                      v-if="item.status == 'RESERVED'"
                       @click="statusChange(index)"
                       style="border-radius:20px; width: 150px; height: 43px; 
                     color: #552D00; background-color: #FFECD6; font-size: 24px;
@@ -189,27 +189,12 @@
                   >
                     예약이 완료되었습니다.
                   </v-card-text>
-
-                  <v-card-actions
-                    style="display:flex; justify-content: center; align-items: center; margin-top: 3%;"
-                  >
-                    <v-btn
-                      color="#FF8139"
-                      width="285px"
-                      height="75px"
-                      style="border-radius:6px"
-                    >
-                      <span style="font-size: 30px; color:white"
-                        >예약 내역 바로가기</span
-                      >
-                    </v-btn>
-                  </v-card-actions>
                 </v-card>
               </v-dialog>
             </div>
             <div style="margin-left: 15px; width: 100%; height: 100%;">
               <div
-                v-if="item.status == '결제 완료'"
+                v-if="item.status == 'COMPLETE'"
                 style="width:93%;  height: 13%; overflow:auto; overflow-y: auto; margin-bottom:10px;"
               >
                 <v-btn
@@ -218,11 +203,11 @@
                     color: #552D00; background-color: #FACE97; font-size: 24px;
                      font-family: NotoSansBold; float:left; margin-right:7%;  "
                 >
-                  {{ item.status }}
+                  결제완료
                 </v-btn>
               </div>
               <div
-                v-else-if="item.status == '예약 대기'"
+                v-else-if="item.status == 'RESERVED'"
                 style="width:93%;  height: 13%; overflow:auto; overflow-y: auto; margin-bottom:10px;"
               >
                 <v-btn
@@ -231,7 +216,7 @@
                     color: #552D00; background-color: #FACE97; font-size: 24px;
                      font-family: NotoSansBold; float:left; margin-right:7%;  "
                 >
-                  {{ item.status }}
+                  예약 대기
                 </v-btn>
               </div>
               <div
@@ -242,7 +227,7 @@
               <div
                 style="margin-top:10px; font-size:23px; width:93%; height: 40%; overflow:auto; overflow-y: auto"
               >
-                {{ item.context }}
+                {{ item.content }}
               </div>
               <div style="font-size:26px">
                 <span style="font-family: NotoSansBold;">[합계]</span
@@ -259,7 +244,13 @@
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
 import Vue from 'vue';
-import { GetMyEstimate } from '@/api/index';
+import {
+  GetMyEstimate,
+  GetIdEstimate,
+  getPetIdData,
+  GetsheetIdEstimate,
+  PutSheetStatus,
+} from '@/api/index';
 
 export default {
   components: { SubHeader },
@@ -286,7 +277,6 @@ export default {
       //axios통신해서 값 받아오기
       //내 반려동물
       const estimateData = await GetMyEstimate();
-      console.log(estimateData.data.data);
       if (estimateData.data.data.length == 0) {
         this.options = [
           { id: '견적서가 없습니다.', name: '견적서가 없습니다.' },
@@ -297,31 +287,57 @@ export default {
       }
 
       //값 바인딩
-      this.petSpecies = '종 입니다';
-      this.petWeight = '무게 입니다';
-      this.petLayMethod = '안치 방법입니다';
-      this.addService = '추가 서비스입니다';
-      this.date = '날짜 입니다';
-      this.location = '장소 입니다';
-      this.question = '문의사항 입니다';
+      this.petSpecies = '내 견적을 선택해주세요';
+      this.petWeight = '';
+      this.petLayMethod = '';
+      this.addService = '';
+      this.date = '';
+      this.location = '';
+      this.question = '';
     },
     async getMyE(id) {
-      //여기는 받아온 반려동물 id의 견적서를 조회합니다.
-      console.log(id);
+      const Edata = await GetIdEstimate(id);
+      console.log(Edata.data.data[0]);
+      const pet = await getPetIdData(Edata.data.data[0].petId);
+      const sheet = await GetsheetIdEstimate(id);
+      let Estimate = Edata.data.data[0];
+      let petData = pet.data.data;
+      let sheetData = sheet.data.data;
+
+      this.petSpecies = petData.kind;
+      this.petWeight = petData.weight;
+      this.petLayMethod = Estimate.way;
+      this.addService = Estimate.service;
+      this.date =
+        Estimate.funeralDate[0] +
+        '-' +
+        Estimate.funeralDate[1] +
+        '-' +
+        Estimate.funeralDate[2];
+      this.location = Estimate.location;
+      this.question = Estimate.question;
+
+      this.petData = sheetData;
+      console.log(this.petData);
     },
-    statusChange(index, status) {
-      console.log(status);
-      if (this.petData[index].status == '예약전') {
+    async statusChange(index) {
+      if (this.petData[index].status == 'PROPOSED') {
         this.dialog = true;
-        //axios통신으로 상태 바꾸기
-        this.petData[index].status = '예약 대기';
-      } else if (this.petData[index].status == '예약 승인') {
+        this.petData[index].status = 'RESERVED';
+        await PutSheetStatus(this.petData[index].id, {
+          status: this.petData[index].status,
+        });
+      } else if (this.petData[index].status == 'APPROVED') {
         this.Payment(index);
-      } else if (this.petData[index].status == '예약 대기') {
-        this.petData[index].status = '예약전';
+      } else if (this.petData[index].status == 'RESERVED') {
+        this.petData[index].status = 'PROPOSED';
+        await PutSheetStatus(this.petData[index].id, {
+          status: this.petData[index].status,
+        });
       }
+      console.log(this.petData[index].status);
     },
-    Payment(index) {
+    async Payment(index) {
       Vue.IMP().request_pay(
         {
           pg: 'html5_inicis',
@@ -343,7 +359,8 @@ export default {
           msg += '결제 금액 : ' + result_success.paid_amount;
           msg += '카드 승인번호 : ' + result_success.apply_num;
           alert(msg);
-          this.petData[index].status = '결제 완료';
+          this.petData[index].status = 'COMPLETE';
+
           console.log(this.petData[index]);
         },
         result_failure => {
@@ -353,6 +370,9 @@ export default {
           alert(msg);
         },
       );
+      await PutSheetStatus(this.petData[index].id, {
+        status: this.petData[index].status,
+      });
     },
   },
   watch: {

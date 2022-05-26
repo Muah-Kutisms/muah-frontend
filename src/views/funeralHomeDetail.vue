@@ -23,7 +23,11 @@
         cols="8"
         style="margin-bottom: 50px; width: 100%; height: 100%;"
       >
-        <v-img :src="require(`@/assets/${imgFile}.png`)">
+        <v-img
+          :src="require(`@/assets/${imgFile}.png`)"
+          width="1237px"
+          height="695px"
+        >
           <div style="width:1237px;height:695px;">
             <v-row>
               <v-col>
@@ -31,58 +35,22 @@
                   <div
                     style=" font-family:NotoSansBold; float: left; font-size: 30px; margin-left: -300px; width: 40%;  height: 100px; overflow:auto; overflow-y:auto"
                   >
-                    {{ item.petdata }}
+                    {{ item.petName }}
                   </div>
                   <div
                     style=" font-family:NotoSansRegular; float: left; vertical-align:bottom; line-height: 60px; font-size: 15px; margin-left: -360px; color: #A2A2A2;"
                   >
-                    {{ item.createDate }}
+                    {{ item.date }}
                   </div>
                 </div>
               </v-col>
             </v-row>
             <v-row style="margin-left:-470px;margin-top:40px;">
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 180x; height: 51px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;"
-                >
-                  예약 대기
-                </v-btn>
-              </v-col>
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 180x; height: 51px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;"
-                >
-                  예약 승인 전
-                </v-btn>
-              </v-col>
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 180x; height: 51px; 
-                    color: #552D00; background-color: #FACE97
-; font-size: 24px;
-                     font-family: NotoSansBold;"
-                >
-                  예약 승인하기
-                </v-btn>
-              </v-col>
-              <v-col cols="auto">
-                <v-btn
-                  style="border-radius:20px; width: 180x; height: 51px; 
-                    color: #552D00; background-color: #CECECE; font-size: 24px;
-                     font-family: NotoSansBold;"
-                >
-                  예약 승인 후
-                </v-btn>
-              </v-col>
+              <v-col cols="auto"> </v-col>
             </v-row>
             <v-row>
-              <div style="margin-left: -440px;margin-top:30px;">
-                <table>
+              <div style="margin-left: -400px;margin-top:10px; ">
+                <table style="font-size:25px">
                   <thead>
                     <tr style="min-width:300px; ">
                       <th class="tableBorder"><span>종</span></th>
@@ -105,28 +73,32 @@
                       style="font-family: NotoSansRegular; width: 964px;"
                     >
                       <td class="tableBorder">
-                        {{ petSpecies }}
+                        {{ item.petSpecies }}
                       </td>
                       <td class="tableBorder">
-                        <span>{{ petWeight }}</span>
+                        <span>{{ item.petWeight }}</span>
                       </td>
                       <td class="tableBorder">
-                        <span>{{ petLayMethod }}</span>
+                        <span>{{ item.way }}</span>
                       </td>
                       <td class="tableBorder">
-                        <span>{{ addService }}</span>
+                        <span>{{ item.service }}</span>
                       </td>
                       <td class="tableBorder">
-                        <span>{{ date }}</span>
+                        <span
+                          >{{ item.funeralDate[0] }}-{{
+                            item.funeralDate[1]
+                          }}-{{ item.funeralDate[2] }}</span
+                        >
                       </td>
                       <td class="tableBorder">
-                        <span>{{ location }}</span>
+                        <span>{{ item.location }}</span>
                       </td>
                       <td
                         class="tableBorder tableBorderBottom"
                         style="border-bottom: 1px solid lightgray;"
                       >
-                        <span>{{ question }}</span>
+                        <span>{{ item.question }}</span>
                       </td>
                     </tr>
                   </tbody>
@@ -143,18 +115,14 @@
             </v-row>
           </div>
           <div
-            style="font-size:26px;margin-top:-100px;margin-left:-450px;display:flex;
-"
-          >
-            <span style="font-family: NotoSansBold;">[합계] </span
-            ><span style="color:#FF3636">{{ item.price }}</span>
-          </div>
+            style="font-size:26px;margin-top:-100px;margin-left:-450px;display:flex;"
+          ></div>
           <div style="margin-left:445px;">
             <v-btn
+              @click="go(item.id, item.petId)"
               width="180px"
               height="51.4px"
-              style="border-radius:7px; color: #552D00
-;background-color: #FF6868; font-size: 24px; font-family: NotoSansBold;"
+              style="border-radius:7px; color: #552D00;background-color: #FF6868; font-size: 24px; font-family: NotoSansBold;"
             >
               <span style="margin-top:-3px;">견적내기</span>
             </v-btn>
@@ -167,6 +135,7 @@
 
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
+import { getAllSheet, getPetIdData } from '@/api/index';
 
 export default {
   components: { SubHeader },
@@ -183,36 +152,38 @@ export default {
       count: Number,
       dialog: false,
       imgFile: 'card',
-      petData: [
-        {
-          petdata: '초코',
-          context: '견적 세부내역',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-        {
-          petdata: '시루',
-          context: '견적 세부내용',
-          price: '55만원',
-          createDate: '2022-05-07',
-        },
-      ],
+      petData: [],
     };
   },
   methods: {
     async init() {
-      //axios통신해서 값 받아오기
-      //값 바인딩
-      this.petSpecies = '종 입니다';
-      this.petWeight = '무게 입니다';
-      this.petLayMethod = '안치 방법입니다';
-      this.addService = '추가 서비스입니다';
-      this.date = '날짜 입니다';
-      this.location = '장소 입니다';
-      this.question = '문의사항 입니다';
+      const data = await getAllSheet();
+      let sheetData = data.data.data;
+      for (let i = 0; i < sheetData.length; i++) {
+        sheetData[i].way = sheetData[i].way.replace('<br/>', ' ');
+        let petId = sheetData[i].petId;
+        const pet = await getPetIdData(petId);
+        sheetData[i].petName = pet.data.data.name;
+        sheetData[i].petSpecies = pet.data.data.kind;
+        sheetData[i].petWeight = pet.data.data.weight;
+        sheetData[i].date =
+          sheetData[i].createdDate[0] +
+          '-' +
+          sheetData[i].createdDate[1] +
+          '-' +
+          sheetData[i].createdDate[2];
+      }
+      this.petData = sheetData;
+      console.log(this.petData);
     },
     on() {
       this.dialog = true;
+    },
+    go(sheetId, petId) {
+      this.$router.push({
+        name: 'funeralcheck',
+        query: { sheetId: sheetId, petId: petId },
+      });
     },
   },
   watch: {
@@ -248,7 +219,7 @@ td {
   display: block;
   padding: 5px;
   text-align: start;
-  height: 38px;
+  height: 50px;
   line-height: -100px;
 }
 th {

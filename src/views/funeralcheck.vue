@@ -18,12 +18,13 @@
               <div
                 style="font-family: NotoSansBold;font-size:35px;margin-left:155px;"
               >
-                <span style="color:#FF5C00;">초코 </span>님의 요청서입니다.
+                <span style="color:#FF5C00;">{{ petName }} </span>님의
+                요청서입니다.
               </div>
               <div
                 style=" font-family:NotoSansRegular;vertical-align:bottom; line-height: 70px; font-size: 20px; margin-left: 80px; color: #A2A2A2;"
               >
-                2022/05/07 21:37
+                {{ createDate }}
               </div>
             </v-row>
             <v-row style="margin-bottom:-370px;">
@@ -116,6 +117,7 @@
               >
                 <textarea
                   class="form-control"
+                  v-model="sheetText"
                   style="width:1061px;height:170px;background-color:#E1E1E1;border-radius:7px;outline-color: #A2A2A2;padding:12px 20px;"
                   placeholder="ex) 견적 안내드립니다. 종 (강아지) 무게 5kg 이상 - 10kg 미만 (기본 15만원) + 요람 세트 (20만원) + 관 (10만원) + 수의 (10만원)"
                 ></textarea>
@@ -131,13 +133,15 @@
                 >
                 <textarea
                   class="form-control"
+                  v-model="price"
                   style="width:1061px;height:49px;background-color:#E1E1E1;border-radius:7px;padding:8px 80px;outline-color: #A2A2A2;"
-                  placeholder="-만원"
+                  placeholder="-만원(숫자만 입력)"
                 ></textarea>
               </div>
             </v-row>
             <v-row style="display:flex;">
               <v-btn
+                @click="addSheet()"
                 style="width:671px;height:55px;border-radius:8px;background-color:#FF5C00;font-size:20px;font-family:NotoSansMedium;color:#FFFFFF;margin-left:330px;margin-top:30px;"
               >
                 견적 댓글 등록 >
@@ -152,7 +156,8 @@
 
 <script>
 import SubHeader from '../components/common/SubHeader.vue';
-
+import { GetEstimateId, getPetIdData, PostProposal } from '@/api/index';
+import { getUserFromCookie } from '@/utils/cookies';
 export default {
   components: { SubHeader },
   data() {
@@ -167,8 +172,12 @@ export default {
       location: String,
       question: String,
       count: Number,
+      sheetText: '', //견적 댓글
       dialog: false,
-      petData: [{ petdata: '초코', price: '55만원', createDate: '2022-05-07' }],
+      petName: '',
+      createDate: '',
+      price: '', //금액
+      petData: '',
       img: require('@/assets/muahwhite.png'),
     };
   },
@@ -176,16 +185,43 @@ export default {
     async init() {
       //axios통신해서 값 받아오기
       //값 바인딩
-      this.petSpecies = '종 입니다';
-      this.petWeight = '무게 입니다';
-      this.petLayMethod = '안치 방법입니다';
-      this.addService = '추가 서비스입니다';
-      this.date = '날짜 입니다';
-      this.location = '장소 입니다';
-      this.question = '문의사항 입니다';
+
+      this.petData = this.$route.query;
+      const sheet = await GetEstimateId(this.petData.sheetId);
+      const pet = await getPetIdData(this.petData.petId);
+      let funeralData = sheet.data.data;
+      let petData = pet.data.data;
+      this.petSpecies = petData.kind;
+      this.petWeight = petData.weight;
+      this.petLayMethod = funeralData.way.replace('<br/>', ' ');
+      this.addService = funeralData.service;
+      this.date =
+        funeralData.funeralDate[0] +
+        '-' +
+        funeralData.funeralDate[1] +
+        '-' +
+        funeralData.funeralDate[2];
+      console.log(funeralData);
+      this.location = funeralData.location;
+      this.question = funeralData.question;
+      this.petName = petData.name;
+      this.createDate =
+        funeralData.createdDate[0] +
+        '-' +
+        funeralData.createdDate[1] +
+        '-' +
+        funeralData.createdDate[2];
     },
     on() {
       this.dialog = true;
+    },
+    async addSheet() {
+      await PostProposal({
+        content: this.sheetText,
+        price: this.price,
+        sheetId: this.petData.sheetId,
+        writerId: getUserFromCookie(),
+      });
     },
   },
   mounted() {

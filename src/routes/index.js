@@ -87,17 +87,12 @@ const router = new vueRouter({
     // },
     {
       path: '/funeral/estimate/funeralHome',
-      //이거 로그인한 사람 아이디 쿼리로 보내기
       name: 'funeralHome',
       component: funeralHome,
-      // beforeEnter,
-      //  대충 장례식장 권한 맞는지 확인하는 함수,
     },
-    //<router-link :to="{name: 'funeralHome', query: {userId: 'cat'}}"></router-link>
-    //참고링크 https://velog.io/@skyepodium/vue-router%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0-eskrsmr3
-    // },
+
     {
-      path: '/funeral/estimate/funeralHome/:id',
+      path: '/funeral/estimate/funeralHomeDetail',
       name: 'funeralHomeDetail',
       component: funeralHomedetail,
       // 	beforeEnter,
@@ -128,7 +123,7 @@ const router = new vueRouter({
       meta: { auth: true },
     },
     {
-      path: '/funeral/check',
+      path: '/funeral/check/',
       name: 'funeralcheck',
       component: funeralcheck,
     },
