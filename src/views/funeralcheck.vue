@@ -4,13 +4,14 @@
       :filename="require('@/assets/hugging.png')"
       width="100%"
       :title="title"
-      :content1="content1"
-      :content2="content2"
-      :content3="content3"
     ></SubHeader>
     <div style="margin-top:100px;display:flex;justify-content:center;">
       <v-card style="height:1218px;width:1319px;margin-bottom:100px;">
-        <v-app-bar absolute color="#633500" style="height:100px;"> </v-app-bar>
+        <v-app-bar absolute color="#633500" style="height:100px;">
+          <div style="margin-top:40px;margin-left:20px;vertical-align: center;">
+            <img :src="img" style="width:148px;height:69px;" />
+          </div>
+        </v-app-bar>
         <v-sheet>
           <v-row style="margin-top:200px;display:flex;justify-content:center;">
             <v-row style="display:flex;">
@@ -18,6 +19,11 @@
                 style="font-family: NotoSansBold;font-size:35px;margin-left:155px;"
               >
                 <span style="color:#FF5C00;">초코 </span>님의 요청서입니다.
+              </div>
+              <div
+                style=" font-family:NotoSansRegular;vertical-align:bottom; line-height: 70px; font-size: 20px; margin-left: 80px; color: #A2A2A2;"
+              >
+                2022/05/07 21:37
               </div>
             </v-row>
             <v-row style="margin-bottom:-370px;">
@@ -97,14 +103,46 @@
             </v-row>
           </v-row>
           <v-row style="display:flex;justify-content:center;">
-            <v-row style="display:flex;">
+            <v-row>
               <div
-                style="font-family: NotoSansBold;font-size:35px;margin-left:1px;"
+                style="font-family: NotoSansBold;font-size:35px;margin-left:155px;"
               >
                 <span style="color:#FF5C00;">견적 댓글 등록 </span>
               </div>
             </v-row>
-            <v-row> </v-row>
+            <v-row style="display:flex;">
+              <div
+                style="font-family: NotoSansMedium;font-size:18px;margin-left:155px;margin-top:30px;"
+              >
+                <textarea
+                  class="form-control"
+                  style="width:1061px;height:170px;background-color:#E1E1E1;border-radius:7px;outline-color: #A2A2A2;padding:12px 20px;"
+                  placeholder="ex) 견적 안내드립니다. 종 (강아지) 무게 5kg 이상 - 10kg 미만 (기본 15만원) + 요람 세트 (20만원) + 관 (10만원) + 수의 (10만원)"
+                ></textarea>
+              </div>
+            </v-row>
+            <v-row style="display:flex;">
+              <div
+                style="font-family: NotoSansMedium;font-size:20px;margin-left:155px;margin-top:15px;position:relative;"
+              >
+                <span
+                  style="padding:8px 20px;padding:8px 20px;position:absolute;"
+                  >[합계]</span
+                >
+                <textarea
+                  class="form-control"
+                  style="width:1061px;height:49px;background-color:#E1E1E1;border-radius:7px;padding:8px 80px;outline-color: #A2A2A2;"
+                  placeholder="-만원"
+                ></textarea>
+              </div>
+            </v-row>
+            <v-row style="display:flex;">
+              <v-btn
+                style="width:671px;height:55px;border-radius:8px;background-color:#FF5C00;font-size:20px;font-family:NotoSansMedium;color:#FFFFFF;margin-left:330px;margin-top:30px;"
+              >
+                견적 댓글 등록 >
+              </v-btn>
+            </v-row>
           </v-row>
         </v-sheet>
       </v-card>
@@ -120,6 +158,7 @@ export default {
   data() {
     return {
       title: '고객 견적 확인하기',
+      message: '',
       petSpecies: String,
       petWeight: String,
       petLayMethod: String,
@@ -130,6 +169,7 @@ export default {
       count: Number,
       dialog: false,
       petData: [{ petdata: '초코', price: '55만원', createDate: '2022-05-07' }],
+      img: require('@/assets/muahwhite.png'),
     };
   },
   methods: {
