@@ -1,26 +1,28 @@
 <template>
   <div>
     <v-row>
-      <v-col v-if="title != '맞춤견적'">
+      <v-col
+        v-if="
+          title != '맞춤견적' || title == '무지개상회' || title != '가이드북'
+        "
+      >
         <v-img
           v-bind:src="filename"
           style="width: 100%; height:300px ; object-fit:cover; "
         >
           <div
-            v-if="title == '내 견적 확인하기' || title == '무지개상회'"
+            v-if="title == '내 견적 확인하기' || title == '고객 견적 확인하기'"
             style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:200px; color:white; justify-content: start; margin-top: 50px;"
           >
-            <div style="font-size:48px;white-space:nowrap;">
-              {{ title }}
-            </div>
+            <div style="font-size:48px;white-space:nowrap;">{{ title }}</div>
           </div>
           <div
-            v-else-if="title != '내 견적 확인하기'"
+            v-else-if="
+              title != '내 견적 확인하기' || title == '고객 견적 확인하기'
+            "
             style="width: 100%; height:100%; display:flex;flex-direction: column; align-items:end; padding-right:50px; color:white; justify-content: center;"
           >
-            <div style="font-size:48px;white-space:nowrap;">
-              {{ title }}
-            </div>
+            <div style="font-size:48px;white-space:nowrap;">{{ title }}</div>
             <div style="font-size:28px;white-space:nowrap;">
               {{ content1 }}
             </div>
@@ -33,7 +35,7 @@
           </div>
         </v-img>
       </v-col>
-      <v-col v-else-if="title == '맞춤견적'">
+      <v-col v-else-if="title == '맞춤견적' || title == '가이드북'">
         <v-img
           v-bind:src="filename"
           style="width: 100%; height:280px ; object-fit:cover; "
@@ -59,7 +61,11 @@
     </v-row>
     <v-row
       style="margin-top:-30px"
-      v-if="title != '내 견적 확인하기' && title != '무지개상회'"
+      v-if="
+        title != '내 견적 확인하기' &&
+          title != '무지개상회' &&
+          title != '고객 견적 확인하기'
+      "
     >
       <div
         style="width:100%; height: 13px; background-color:#e77636;margin-top: 18px; z-index: 1;"

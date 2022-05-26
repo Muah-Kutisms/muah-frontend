@@ -7,6 +7,7 @@
       :content1="content1"
       :content2="content2"
       :content3="content3"
+      :buttonStatus="buttonStatus"
     ></SubHeader>
     <div style="position:relative;  text-align:center;">
       <div
@@ -193,12 +194,7 @@ export default {
       content2:
         '전반적인 장례 과정을 미리 이해할 수 있는 가이드북을 제공해 드립니다. ',
       content3: '',
-      menu: [
-        ['맞춤 견적', 'grayCat'],
-        ['출장 서비스', 'brownDog'],
-        ['가이드북', 'grayDog'],
-        ['장례식장 후기', 'petGroup'],
-      ],
+      buttonStatus: [false, false, true, false],
       guide: [
         ['1. 장례 예약', 'funeral1'],
         ['', 'dirction'],

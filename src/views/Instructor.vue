@@ -7,6 +7,7 @@
       :content1="content1"
       :content2="content2"
       :content3="content3"
+      :buttonStatus="buttonStatus"
     ></SubHeader>
     <div style="position:relative; text-align:left; padding-left:408px;">
       <div style="margin-top:150px; position:absolute; z-index:1; width:100%;">
@@ -158,12 +159,7 @@ export default {
         '당혹스러운 당신을 위해 한국반려동물자격협회를 통해 검증된 전문가들이 함께합니다.',
       content2: '이동부터 화장까지, 장례지도사 출장 서비스가 대행해 드립니다.',
       content3: '',
-      menu: [
-        ['맞춤 견적', 'grayCat'],
-        ['출장 서비스', 'brownDog'],
-        ['가이드북', 'grayDog'],
-        ['장례식장 후기', 'petGroup'],
-      ],
+      buttonStatus: [false, true, false, false],
     };
   },
 };
