@@ -4,10 +4,8 @@
       :filename="require('@/assets/hugging.png')"
       width="100%"
       :title="title"
-      :content1="content1"
-      :content2="content2"
-      :content3="content3"
     ></SubHeader>
+
     <v-row>
       <v-col>
         <div
@@ -158,7 +156,7 @@
               style="border-radius:7px; color: #552D00
 ;background-color: #FF6868; font-size: 24px; font-family: NotoSansBold;"
             >
-              견적내기
+              <span style="margin-top:-3px;">견적내기</span>
             </v-btn>
           </div>
         </v-img>
