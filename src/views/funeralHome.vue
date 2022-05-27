@@ -132,7 +132,7 @@ margin-left: -135px; color: #A2A2A2;"
               <v-col cols="auto"> </v-col>
               <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
-                  v-if="item.status == 'RESERVED'"
+                  v-if="item.pstatus == 'RESERVED'"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #FACE97; font-size: 24px;
                      font-family: NotoSansBold;letter-spacing:-0.3px;"
@@ -140,7 +140,7 @@ margin-left: -135px; color: #A2A2A2;"
                   예약 승인 전
                 </v-btn>
                 <v-btn
-                  v-else-if="item.status == 'APPROVED'"
+                  v-else-if="item.pstatus == 'APPROVED'"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #FACE97; font-size: 24px;
                      font-family: NotoSansBold;letter-spacing:-0.3px;"
@@ -150,7 +150,7 @@ margin-left: -135px; color: #A2A2A2;"
               </v-col>
               <v-col cols="auto" style="margin-left:-15px;">
                 <v-btn
-                  v-if="item.status == 'RESERVED'"
+                  v-if="item.pstatus == 'RESERVED'"
                   @click="changeStatus(index)"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;letter-spacing:-0.3px;
@@ -160,7 +160,7 @@ margin-left: -135px; color: #A2A2A2;"
                   예약 승인하기
                 </v-btn>
                 <v-btn
-                  v-else-if="item.status == 'APPROVED'"
+                  v-else-if="item.pstatus == 'APPROVED'"
                   @click="changeStatus(index)"
                   style="border-radius:20px; width: 150x; height: 42px; 
                     color: #552D00; background-color: #CECECE; font-size: 24px;letter-spacing:-0.3px;
@@ -228,13 +228,13 @@ margin-left: -135px; color: #A2A2A2;"
                   <div
                     style=" font-family:NotoSansBold; float: left; font-size: 30px;font-weight:700; margin-left:130px; width: 40%;  height: 100px; overflow:auto; overflow-y:auto"
                   >
-                    {{ item.petdata }}
+                    {{ item.petName }}
                   </div>
                   <div
                     style=" font-family:NotoSansRegular; float: left; vertical-align:bottom; line-height: 60px; font-size: 15px; font-weight:700;
 margin-left: -135px; color: #A2A2A2;"
                   >
-                    {{ item.createDate }}
+                    {{ item.createdDate }}
                   </div>
                 </div>
               </v-col>
@@ -259,9 +259,9 @@ margin-left: -135px; color: #A2A2A2;"
 "
             >
               <div style="position:relative;">
-                <div>종 : {{ petSpecies }}</div>
-                <div>무게 : {{ petWeight }}</div>
-                <div>일시 : {{ date }}</div>
+                <div>종 : {{ item.kind }}</div>
+                <div>무게 : {{ item.weight }}</div>
+                <div>일시 : {{ item.date }}</div>
                 <div style="float:left;">
                   ...
                 </div>
@@ -290,6 +290,7 @@ import {
   GetUser,
   GetCompany,
   getPetIdData,
+  PutProposalStatus,
   PutSheetStatus,
 } from '@/api/index';
 import { getUserFromCookie } from '@/utils/cookies';
@@ -327,7 +328,6 @@ export default {
       this.id = getUserFromCookie();
       const { data } = await GetUser(this.id);
       let userData = { data }.data.data;
-      console.log(userData);
       // const { data } = await fetchPosts(); // this.menu =
       this.userName = userData.funeralName;
       this.userLocation = userData.address.city;
@@ -338,7 +338,6 @@ export default {
         const pet = await getPetIdData(this.petData[i].petId);
 
         let petDetail = pet.data.data;
-        console.log(pet);
         this.petData[i].date =
           this.petData[i].funeralDate[0] +
           '-' +
@@ -349,14 +348,26 @@ export default {
         this.petData[i].kind = petDetail.kind;
         this.petData[i].weight = petDetail.weight;
       }
+      console.log(this.petData);
       this.petDatafinish = Data.data.data[2];
       for (let i = 0; i < this.petDatafinish.length; i++) {
         const pet = await getPetIdData(this.petDatafinish[i].petId);
         let petDetail = pet.data.data;
+        this.petDatafinish[i].createdDate =
+          this.petDatafinish[i].createdDate[0] +
+          '-' +
+          this.petDatafinish[i].createdDate[1] +
+          '-' +
+          this.petDatafinish[i].createdDate[2];
+        this.petDatafinish[i].date =
+          this.petDatafinish[i].funeralDate[0] +
+          '-' +
+          this.petDatafinish[i].funeralDate[1] +
+          '-' +
+          this.petDatafinish[i].funeralDate[2];
         this.petDatafinish[i].kind = petDetail.kind;
         this.petDatafinish[i].weight = petDetail.weight;
       }
-      console.log(this.petData);
     },
     async uploadImg() {
       this.img = this.$refs['image'].files[0];
@@ -370,15 +381,21 @@ export default {
       this.$router.push(`/funeral/estimate/funeralHomeDetail`);
     },
     async changeStatus(index) {
-      if (this.petData[index].status == 'APPROVED') {
-        this.petData[index].status = 'RESERVED';
+      if (this.petData[index].pstatus == 'APPROVED') {
+        this.petData[index].pstatus = 'RESERVED';
         await PutSheetStatus(this.petData[index].id, {
-          status: this.petData[index].status,
+          status: 'WATING_APPROVAL',
         });
-      } else if (this.petData[index].status == 'RESERVED') {
-        this.petData[index].status = 'APPROVED';
+        await PutProposalStatus(this.petData[index].Pid, {
+          status: this.petData[index].pstatus,
+        });
+      } else if (this.petData[index].pstatus == 'RESERVED') {
+        this.petData[index].pstatus = 'APPROVED';
         await PutSheetStatus(this.petData[index].id, {
-          status: this.petData[index].status,
+          status: 'WAITING_PAYMENT',
+        });
+        await PutProposalStatus(this.petData[index].Pid, {
+          status: this.petData[index].pstatus,
         });
       }
     },

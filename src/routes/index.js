@@ -72,7 +72,6 @@ const router = new vueRouter({
       path: '/funeral/guideBook',
       name: 'guideBook',
       component: guidebook,
-      // 	beforeEnter,
     },
     // {
     // 	path: '/funeral/review', 장례식장 후기
@@ -89,14 +88,14 @@ const router = new vueRouter({
       path: '/funeral/estimate/funeralHome',
       name: 'funeralHome',
       component: funeralHome,
+      meta: { auth: true },
     },
 
     {
       path: '/funeral/estimate/funeralHomeDetail',
       name: 'funeralHomeDetail',
       component: funeralHomedetail,
-      // 	beforeEnter,
-      //대충 장례식장 권한 맞는지 확인하는 함수,
+      meta: { auth: true },
     },
     {
       path: '/myPage',
@@ -126,6 +125,7 @@ const router = new vueRouter({
       path: '/funeral/check/',
       name: 'funeralcheck',
       component: funeralcheck,
+      meta: { auth: true },
     },
     // {
     // 	path: '/myPage/reservationHistory/:id', 마이페이지 일반 예약관리 세부내용 (권한별로 다른 v-if)
