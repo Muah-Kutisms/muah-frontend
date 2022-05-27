@@ -39,7 +39,13 @@
             </template>
 
             <v-list v-if="text == '장례서비스'" color="#E9DFCC">
-              <v-list-item v-for="(nav, item) in items" :key="item" link>
+              <v-list-item
+                v-for="(nav, item) in items"
+                :key="item"
+                link
+                to="/funeral/guideBook"
+                replace
+              >
                 <v-list-item-title
                   ><div style="text-align:center">
                     <span>{{ nav }}</span>
@@ -103,21 +109,26 @@ export default {
     };
   },
   methods: {
-    logoutUser() {
+    async logoutUser() {
       this.$store.commit('clearUsername');
       this.$store.commit('clearToken');
       deleteCookie('til_auth');
       deleteCookie('til_user');
+      await this.$router.go();
       this.$router.push('/main');
+    },
+    login() {
+      this.$router.push('/login');
     },
     async link(text) {
       if (text == '장례서비스') {
         this.$router.push({ path: `funeral` });
+      } else if (text == '무지개상회') {
+        this.$router.push('/store');
       } else if (text == '로그아웃') {
         this.logoutUser();
-        this.$router.push('/login');
       } else if (text == '로그인') {
-        this.$router.push('/login');
+        this.login();
       } else if (text == '마이페이지') {
         let id = getUserFromCookie();
         const { data } = await GetUser(id);

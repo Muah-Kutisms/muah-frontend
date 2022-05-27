@@ -64,11 +64,7 @@
 <script>
 // import { getPetIdData, PostPet } from '@/api/index';
 import { PostUser } from '@/api/index';
-import {
-  saveAuthToCookie,
-  saveUserToCookie,
-  getAuthFromCookie,
-} from '@/utils/cookies';
+import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
 export default {
   components: {},
   data() {
@@ -110,6 +106,10 @@ export default {
       document.body.appendChild(form);
       form.submit();
     },
+    async go() {
+      await this.$router.go();
+      this.$router.push(`/main`);
+    },
     async rout() {
       let code = this.$route.query.code;
       console.log(code);
@@ -127,10 +127,9 @@ export default {
           if (a.data.data.isNew) {
             this.$router.push(`/signup/information`);
           } else {
-            this.$router.push(`/main`);
+            this.go();
           }
         }
-        console.log(getAuthFromCookie());
       }
     },
   },

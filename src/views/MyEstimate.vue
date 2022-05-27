@@ -11,7 +11,7 @@
           v-model="estimateId"
           label="내 견적서"
           :items="options"
-          item-text="id"
+          item-text="sheetNumberId"
           item-value="id"
           solo
           flat
@@ -250,6 +250,7 @@ import {
   getPetIdData,
   GetsheetIdEstimate,
   PutSheetStatus,
+  PutProposalStatus,
 } from '@/api/index';
 
 export default {
@@ -277,6 +278,7 @@ export default {
       //axios통신해서 값 받아오기
       //내 반려동물
       const estimateData = await GetMyEstimate();
+      console.log(estimateData);
       if (estimateData.data.data.length == 0) {
         this.options = [
           { id: '견적서가 없습니다.', name: '견적서가 없습니다.' },
@@ -321,18 +323,24 @@ export default {
       console.log(this.petData);
     },
     async statusChange(index) {
-      if (this.petData[index].status == 'PROPOSED') {
+      if (this.petData[index].status == 'WAITING_RESERVATION') {
         this.dialog = true;
-        this.petData[index].status = 'RESERVED';
-        await PutSheetStatus(this.petData[index].id, {
+        this.petData[index].status = 'WAITING_APPROVAL';
+        await PutSheetStatus(this.petData[index].sheetId, {
           status: this.petData[index].status,
         });
-      } else if (this.petData[index].status == 'APPROVED') {
+        await PutProposalStatus(this.petData[index].id, {
+          status: 'RESERVED',
+        });
+      } else if (this.petData[index].status == 'WAITING_APPROVEL') {
         this.Payment(index);
-      } else if (this.petData[index].status == 'RESERVED') {
-        this.petData[index].status = 'PROPOSED';
-        await PutSheetStatus(this.petData[index].id, {
+      } else if (this.petData[index].status == 'WAITING_APPROVAL') {
+        this.petData[index].status = 'WAITING_RESERVATION';
+        await PutSheetStatus(this.petData[index].sheetId, {
           status: this.petData[index].status,
+        });
+        await PutProposalStatus(this.petData[index].id, {
+          status: 'PROPOSED',
         });
       }
       console.log(this.petData[index].status);
@@ -359,7 +367,7 @@ export default {
           msg += '결제 금액 : ' + result_success.paid_amount;
           msg += '카드 승인번호 : ' + result_success.apply_num;
           alert(msg);
-          this.petData[index].status = 'COMPLETE';
+          this.petData[index].status = 'RESERVATION_CONFIRMED';
 
           console.log(this.petData[index]);
         },
@@ -370,8 +378,11 @@ export default {
           alert(msg);
         },
       );
-      await PutSheetStatus(this.petData[index].id, {
+      await PutSheetStatus(this.petData[index].sheetId, {
         status: this.petData[index].status,
+      });
+      await PutProposalStatus(this.petData[index].id, {
+        status: 'COMPLETE',
       });
     },
   },
@@ -382,7 +393,6 @@ export default {
   },
   mounted() {
     this.init();
-    this.getMyE();
   },
 };
 </script>

@@ -95,6 +95,10 @@ function PutUser(id, request) {
 }
 
 function PutSheetStatus(id, status) {
+  return instance.put(`/status/sheet/${id}`, status);
+}
+
+function PutProposalStatus(id, status) {
   return instance.put(`/status/proposal/${id}`, status);
 }
 
@@ -119,4 +123,5 @@ export {
   GetsheetIdEstimate,
   PutSheetStatus,
   GetCompany,
+  PutProposalStatus,
 };
