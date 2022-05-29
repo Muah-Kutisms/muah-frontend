@@ -55,7 +55,7 @@
           </div>
           <div style="display: flex; justify-content:center; margin-left:1">
             <div style="display: flex;">
-              <v-checkbox label="모두 동의합니다"></v-checkbox>
+              <v-checkbox v-model="check" label="모두 동의합니다"></v-checkbox>
               <span
                 style="font-size:15px; margin-top:18px; margin-left:25px; margin-right:25px "
               >
@@ -63,13 +63,17 @@
               </span>
 
               <v-checkbox
+                v-model="check"
                 id="check"
                 label="이용약관 필수 동의"
                 style="margin-right:30px; margin-left:10px"
               >
               </v-checkbox>
             </div>
-            <v-checkbox label="개인정보 수집 및 이용 동의"></v-checkbox>
+            <v-checkbox
+              v-model="check"
+              label="개인정보 수집 및 이용 동의"
+            ></v-checkbox>
           </div>
           <div style="display: flex; justify-content:center; margin-left:1">
             <div style="display: flex;">
@@ -138,7 +142,7 @@
           </div>
           <div style="display: flex; justify-content:center; margin-left:1">
             <div style="display: flex;">
-              <v-checkbox label="모두 동의합니다"></v-checkbox>
+              <v-checkbox v-model="check" label="모두 동의합니다"></v-checkbox>
               <span
                 style="font-size:15px; margin-top:18px; margin-left:25px; margin-right:25px "
               >
@@ -147,12 +151,16 @@
 
               <v-checkbox
                 id="check"
+                v-model="check"
                 label="이용약관 필수 동의"
                 style="margin-right:30px; margin-left:10px"
               >
               </v-checkbox>
             </div>
-            <v-checkbox label="개인정보 수집 및 이용 동의"></v-checkbox>
+            <v-checkbox
+              v-model="check"
+              label="개인정보 수집 및 이용 동의"
+            ></v-checkbox>
           </div>
           <div style="display: flex; justify-content:center; margin-left:1">
             <div style="display: flex;">
@@ -253,7 +261,7 @@
           </div>
           <div style="clear: both; margin-top:-5%">
             <div style="display: flex; justify-content:center; margin-top:-5%">
-              <v-checkbox label="모두 동의합니다"></v-checkbox>
+              <v-checkbox v-model="check" label="모두 동의합니다"></v-checkbox>
               <span
                 style="font-size:15px; margin-top:18px; margin-left:25px; margin-right:25px "
               >
@@ -261,12 +269,16 @@
               </span>
 
               <v-checkbox
+                v-model="check"
                 id="check"
                 label="이용약관 필수 동의"
                 style="margin-right:30px; margin-left:10px"
               >
               </v-checkbox>
-              <v-checkbox label="개인정보 수집 및 이용 동의"></v-checkbox>
+              <v-checkbox
+                v-model="check"
+                label="개인정보 수집 및 이용 동의"
+              ></v-checkbox>
             </div>
           </div>
           <div style="display: flex; justify-content:center; margin-left:1">
@@ -301,6 +313,7 @@ export default {
 
   data() {
     return {
+      check: '',
       name: '',
       nickname: '',
       phone_number: '',

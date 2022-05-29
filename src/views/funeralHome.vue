@@ -179,7 +179,7 @@ margin-left: -135px; color: #A2A2A2;"
               <div style="position:relative;">
                 <div>종 : {{ item.kind }}</div>
                 <div>무게 : {{ item.weight }}</div>
-                <div>일시 : {{ item.createDate }}</div>
+                <div>일시 : {{ item.date }}</div>
                 <div style="float:left;">
                   ...
                 </div>
@@ -386,7 +386,7 @@ export default {
         await PutSheetStatus(this.petData[index].id, {
           status: 'WATING_APPROVAL',
         });
-        await PutProposalStatus(this.petData[index].Pid, {
+        await PutProposalStatus(this.petData[index].proposalId, {
           status: this.petData[index].pstatus,
         });
       } else if (this.petData[index].pstatus == 'RESERVED') {
@@ -394,7 +394,7 @@ export default {
         await PutSheetStatus(this.petData[index].id, {
           status: 'WAITING_PAYMENT',
         });
-        await PutProposalStatus(this.petData[index].Pid, {
+        await PutProposalStatus(this.petData[index].proposalId, {
           status: this.petData[index].pstatus,
         });
       }

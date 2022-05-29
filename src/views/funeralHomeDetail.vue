@@ -160,7 +160,7 @@ export default {
       const data = await getAllSheet();
       let sheetData = data.data.data;
       for (let i = 0; i < sheetData.length; i++) {
-        sheetData[i].way = sheetData[i].way.replace('<br/>', ' ');
+        sheetData[i].way = sheetData[i].way.replace('<br />', ' ');
         let petId = sheetData[i].petId;
         const pet = await getPetIdData(petId);
         sheetData[i].petName = pet.data.data.name;

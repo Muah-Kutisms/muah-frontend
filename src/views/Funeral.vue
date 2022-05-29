@@ -37,6 +37,7 @@
             width="510"
             height="79"
             style="border-radius:25px; margin-left:100px"
+            @click="roleCheck()"
             ><span style="font-size:32px; font-family: NotoSansBold;"
               >장례업체 전용</span
             ></v-btn
@@ -48,7 +49,22 @@
 </template>
 
 <script>
-export default {};
+import { getUserFromCookie } from '@/utils/cookies';
+import { GetUser } from '@/api/index';
+export default {
+  methods: {
+    async roleCheck() {
+      let id = getUserFromCookie();
+      let user = await GetUser(id);
+      const userData = user.data.data;
+      if (userData.role == 'ROLE_COMPANY') {
+        this.$router.push({ path: `funeral/estimate/funeralHomeDetail` });
+      } else {
+        alert('장례업체 전용 페이지입니다.');
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

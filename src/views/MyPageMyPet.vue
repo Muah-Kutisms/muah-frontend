@@ -54,7 +54,7 @@
                 width="250px"
                 height="305px"
                 style="display:flex; justify-content:center; align-items:center; border-radius: 49px;"
-                ><v-img src="@/assets/큰 몽몽.png"></v-img>
+                ><v-img :src="petImg"></v-img>
               </v-card>
             </div>
             <div style="margin-top:7%; margin-left: 5%;">
@@ -102,14 +102,7 @@
             <v-btn
               depressed
               style="width: 810px; height: 72px; border-radius: 26px; background-color: #FE843C; "
-              ><span
-                style="font-size:32px"
-                @click="
-                  $router.push({
-                    name: `selectMyPet`,
-                    params: { pageNumber: 2, petId: id },
-                  })
-                "
+              ><span style="font-size:32px" @click="go(petId)"
                 >이 반려동물로 견적내기</span
               ></v-btn
             >
@@ -126,29 +119,52 @@ export default {
   data() {
     return {
       options: [],
-      petId: Number,
+      petId: '',
       petName: '',
       petLay: '',
       petWeight: '',
       petBirthday: '',
       id: '',
+      petImg: require('@/assets/큰 몽몽.png'),
     };
   },
   methods: {
     async init() {
       const data = await getAllMyPetEstimate();
-      this.options = data.data.data;
+      console.log(data);
+      if (data.data.data.length == 0) {
+        this.options = [
+          { id: '등록된 동물이 없습니다.', name: '등록된 동물이 없습니다.' },
+        ];
+      } else {
+        //내 견적 정보
+        this.options = data.data.data;
+      }
     },
     async getMyPet(id) {
-      const petData = await getMyPetEstimate(id);
-      let pet = petData.data.data;
+      if (id != '등록된 동물이 없습니다.') {
+        const petData = await getMyPetEstimate(id);
+        let pet = petData.data.data;
 
-      this.petName = pet.name;
-      this.petLay = pet.name;
-      this.petBirthday =
-        pet.birthdate[0] + '-' + pet.birthdate[1] + '-' + pet.birthdate[2];
-      this.petWeight = pet.weight;
-      this.id = pet.id;
+        this.petName = pet.name;
+        this.petLay = pet.name;
+        this.petBirthday =
+          pet.birthdate[0] + '-' + pet.birthdate[1] + '-' + pet.birthdate[2];
+        this.petWeight = pet.weight;
+        this.id = pet.id;
+        this.petImg = pet.image.imageUrl;
+      }
+    },
+    go(petId) {
+      console.log(petId);
+      if (petId != '' && petId != '등록된 동물이 없습니다.') {
+        this.$router.push({
+          name: `selectMyPet`,
+          params: { pageNumber: 2, petId: petId },
+        });
+      } else {
+        alert('견적 받으실 반려동물을 선택해주세요');
+      }
     },
   },
   mounted() {

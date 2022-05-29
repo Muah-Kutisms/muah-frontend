@@ -35,7 +35,12 @@ const router = new vueRouter({
       component: LoginView,
     },
     {
-      path: '/main',
+      path: '/main/:id',
+      name: 'main',
+      component: MainView,
+    },
+    {
+      path: '/main/',
       name: 'main',
       component: MainView,
     },

@@ -53,6 +53,7 @@
             x-large
             color="#633500"
             dark
+            @click="$router.push('/funeral')"
             width="510"
             style="border-radius:25px;"
             ><span style="font-size:32px">장례서비스</span></v-btn
@@ -61,6 +62,7 @@
             x-large
             color="#633500"
             dark
+            @click="$router.push('/store')"
             width="510"
             style="border-radius:25px; margin-left:100px"
             ><span style="font-size:32px">무지개상회</span></v-btn
@@ -80,8 +82,12 @@ export default {
   methods: {},
   created() {},
   mounted() {
-    let a = this.$route.query.id;
-    console.log(a);
+    let main = this.$route.params.id;
+    console.log(main);
+    if (main == 'main') {
+      this.$router.push({ name: 'main', params: { id: '' } });
+      this.$router.go();
+    }
   },
 };
 </script>

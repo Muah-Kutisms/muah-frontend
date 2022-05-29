@@ -49,7 +49,7 @@ function GetMyEstimate() {
 }
 
 function GetIdEstimate(id) {
-  return instance.get(`/funeral/estimate/pet/${id}`);
+  return instance.get(`/funeral/estimate/${id}`);
 }
 
 function GetsheetIdEstimate(sheetId) {
