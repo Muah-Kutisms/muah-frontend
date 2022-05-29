@@ -80,6 +80,7 @@
             color="#faf6e8"
             dark
             outlined
+            @click="change(item)"
             :class="{ on: buttonStatus[index], off: !buttonStatus[index] }"
             ><span style="font-size:30px"> {{ item }}</span>
           </v-btn>
@@ -107,6 +108,17 @@ export default {
   },
   mounted() {
     console.log(this.imgSrc);
+  },
+  methods: {
+    change(item) {
+      if (item == '맞춤 견적') {
+        this.$router.push('/funeral');
+      } else if (item == '출장 서비스') {
+        this.$router.push('/funeral/instructor');
+      } else if (item == '가이드북') {
+        this.$router.push('/funeral/guideBook');
+      }
+    },
   },
 };
 </script>

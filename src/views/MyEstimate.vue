@@ -281,7 +281,7 @@ export default {
       console.log(estimateData);
       if (estimateData.data.data.length == 0) {
         this.options = [
-          { id: '견적서가 없습니다.', name: '견적서가 없습니다.' },
+          { id: '견적서가 없습니다.', sheetNumberId: '견적서가 없습니다.' },
         ];
       } else {
         //내 견적 정보
@@ -299,16 +299,16 @@ export default {
     },
     async getMyE(id) {
       const Edata = await GetIdEstimate(id);
-      console.log(Edata.data.data[0]);
-      const pet = await getPetIdData(Edata.data.data[0].petId);
+      console.log(Edata.data.data);
+      const pet = await getPetIdData(Edata.data.data.petId);
       const sheet = await GetsheetIdEstimate(id);
-      let Estimate = Edata.data.data[0];
+      let Estimate = Edata.data.data;
       let petData = pet.data.data;
       let sheetData = sheet.data.data;
 
       this.petSpecies = petData.kind;
       this.petWeight = petData.weight;
-      this.petLayMethod = Estimate.way;
+      this.petLayMethod = Estimate.way.replace('<br />', ' ');
       this.addService = Estimate.service;
       this.date =
         Estimate.funeralDate[0] +
@@ -320,27 +320,41 @@ export default {
       this.question = Estimate.question;
 
       this.petData = sheetData;
-      console.log(this.petData);
+      console.log(sheet); //sheet는 댓글이네 id는 댓글 아이디 sheetId가 별개
     },
     async statusChange(index) {
-      if (this.petData[index].status == 'WAITING_RESERVATION') {
+      //일단 this status는 댓글에 대한 상태여야 함.
+      //sheet의 status를 변경은 하되 사용하면 안될듯.
+      if (this.petData[index].status == 'PROPOSED') {
+        //예약하기
         this.dialog = true;
-        this.petData[index].status = 'WAITING_APPROVAL';
+        this.petData[index].status = 'RESERVED';
         await PutSheetStatus(this.petData[index].sheetId, {
-          status: this.petData[index].status,
-        });
+          status: 'WAITING_APPROVAL',
+        }); //시트 상태를 업체 승인 기다림으로 변경
         await PutProposalStatus(this.petData[index].id, {
-          status: 'RESERVED',
-        });
-      } else if (this.petData[index].status == 'WAITING_APPROVEL') {
+          status: this.petData[index].status,
+        }); //댓글 상태를 댓글 채택으로 바꿈
+      } else if (this.petData[index].status == 'APPROVED') {
+        //결제 하기
         this.Payment(index);
-      } else if (this.petData[index].status == 'WAITING_APPROVAL') {
-        this.petData[index].status = 'WAITING_RESERVATION';
+
         await PutSheetStatus(this.petData[index].sheetId, {
-          status: this.petData[index].status,
+          status: 'RESERVATION_CONFIRMED',
+        });
+        let a = await PutProposalStatus(this.petData[index].id, {
+          status: 'COMPLETE',
+        });
+
+        console.log(a);
+      } else if (this.petData[index].status == 'RESERVED') {
+        //예약 취소
+        this.petData[index].status = 'PROPOSED';
+        await PutSheetStatus(this.petData[index].sheetId, {
+          status: 'WAITING_RESERVATION',
         });
         await PutProposalStatus(this.petData[index].id, {
-          status: 'PROPOSED',
+          status: this.petData[index].status,
         });
       }
       console.log(this.petData[index].status);
@@ -367,7 +381,7 @@ export default {
           msg += '결제 금액 : ' + result_success.paid_amount;
           msg += '카드 승인번호 : ' + result_success.apply_num;
           alert(msg);
-          this.petData[index].status = 'RESERVATION_CONFIRMED';
+          this.petData[index].status = 'COMPLETE';
 
           console.log(this.petData[index]);
         },
@@ -378,12 +392,6 @@ export default {
           alert(msg);
         },
       );
-      await PutSheetStatus(this.petData[index].sheetId, {
-        status: this.petData[index].status,
-      });
-      await PutProposalStatus(this.petData[index].id, {
-        status: 'COMPLETE',
-      });
     },
   },
   watch: {

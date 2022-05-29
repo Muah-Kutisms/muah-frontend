@@ -14,6 +14,7 @@
                 width="177px"
                 height="222px"
                 elevation="2"
+                @click="go(type)"
                 :style="{ 'background-color': hover ? '#F1E7D4' : '#FFFFFF' }"
                 style="flex-direction: column; border-radius:48px;"
               >
@@ -245,14 +246,19 @@ export default {
       console.log(this.number);
     },
     async uploadImg() {
-      console.log('들어왔다');
-
       this.img = this.$refs['image'].files[0];
       const url = URL.createObjectURL(this.img);
       this.imageSrc = url;
       this.imgForm = new FormData();
       this.imgForm.append('imgFile', this.img);
       await PostUserImage(this.id, this.imgForm);
+    },
+    go(type) {
+      if (type == '내 반려동물') {
+        this.$router.push('/myPage/myPet');
+      } else if (type == '내 견적 확인') {
+        this.$router.push('/myPage/myEstimate');
+      }
     },
   },
   mounted() {

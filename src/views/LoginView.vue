@@ -106,10 +106,10 @@ export default {
       document.body.appendChild(form);
       form.submit();
     },
-    async go() {
-      await this.$router.go();
-      this.$router.push(`/main`);
+    go() {
+      this.$router.push({ name: 'main', params: { id: 'main' } });
     },
+
     async rout() {
       let code = this.$route.query.code;
       console.log(code);
@@ -134,7 +134,6 @@ export default {
     },
   },
   mounted() {
-    console.log('마운트');
     this.rout();
   },
 };

@@ -135,7 +135,7 @@
                   class="form-control"
                   v-model="price"
                   style="width:1061px;height:49px;background-color:#E1E1E1;border-radius:7px;padding:8px 80px;outline-color: #A2A2A2;"
-                  placeholder="-만원(숫자만 입력)"
+                  placeholder="-원(숫자만 입력)"
                 ></textarea>
               </div>
             </v-row>
@@ -193,7 +193,7 @@ export default {
       let petData = pet.data.data;
       this.petSpecies = petData.kind;
       this.petWeight = petData.weight;
-      this.petLayMethod = funeralData.way.replace('<br/>', ' ');
+      this.petLayMethod = funeralData.way.replace('<br />', ' ');
       this.addService = funeralData.service;
       this.date =
         funeralData.funeralDate[0] +
@@ -222,6 +222,8 @@ export default {
         sheetId: this.petData.sheetId,
         writerId: getUserFromCookie(),
       });
+      alert('견적 등록이 완료되었습니다.');
+      this.$router.push('/funeral/estimate/funeralHomeDetail');
     },
   },
   mounted() {

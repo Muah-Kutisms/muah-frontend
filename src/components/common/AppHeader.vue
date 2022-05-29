@@ -43,8 +43,7 @@
                 v-for="(nav, item) in items"
                 :key="item"
                 link
-                to="/funeral/guideBook"
-                replace
+                @click="log(nav)"
               >
                 <v-list-item-title
                   ><div style="text-align:center">
@@ -115,29 +114,41 @@ export default {
       deleteCookie('til_auth');
       deleteCookie('til_user');
       await this.$router.go();
-      this.$router.push('/main');
     },
     login() {
       this.$router.push('/login');
     },
     async link(text) {
       if (text == '장례서비스') {
-        this.$router.push({ path: `funeral` });
+        this.$router.push(`/funeral`);
       } else if (text == '무지개상회') {
         this.$router.push('/store');
       } else if (text == '로그아웃') {
-        this.logoutUser();
+        await this.logoutUser();
       } else if (text == '로그인') {
         this.login();
       } else if (text == '마이페이지') {
         let id = getUserFromCookie();
-        const { data } = await GetUser(id);
-        if (data.data.role == 'ROLE_USER') {
-          this.$router.push('/mypage');
+        try {
+          const { data } = await GetUser(id);
+          if (data.data.role == 'ROLE_USER') {
+            this.$router.push('/mypage');
+          }
+          if (data.data.role == 'ROLE_COMPANY') {
+            this.$router.push('/funeral/estimate/funeralHome');
+          }
+        } catch (error) {
+          alert('로그인이 필요합니다.');
         }
-        if (data.data.role == 'ROLE_COMPANY') {
-          this.$router.push('/funeral/estimate/funeralHome');
-        }
+      }
+    },
+    log(nav) {
+      if (nav == '맞춤 견적') {
+        this.$router.push('/funeral');
+      } else if (nav == '출장 서비스') {
+        this.$router.push('/funeral/instructor');
+      } else if (nav == '가이드북') {
+        this.$router.push('/funeral/guideBook');
       }
     },
     async init() {
