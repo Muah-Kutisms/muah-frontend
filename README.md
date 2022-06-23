@@ -32,7 +32,11 @@ vue.js를 활용해 개발
 
 ![image](https://user-images.githubusercontent.com/65761395/175240010-09d1d9de-a272-43ad-a4b4-f353765849ca.png)
 
+![image](https://user-images.githubusercontent.com/65761395/175240267-1186bbfb-303a-496e-afc8-e6ff502220f4.png)
 
+![image](https://user-images.githubusercontent.com/65761395/175240633-aa1cdf90-38f2-493e-884c-fca2663c8c6a.png)
+
+![image](https://user-images.githubusercontent.com/65761395/175240677-d40cb3b6-9e8b-4577-a7ea-b0645710c214.png)
 
 
 ![image](https://user-images.githubusercontent.com/65761395/175239829-ea8a511d-204a-4061-a385-1871970a88ec.png)
